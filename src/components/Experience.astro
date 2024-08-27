@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from "astro:content";
+import styles from "../styles/components/experience.module.scss";
+import { fmtDate } from "../utils/fmt-date";
+
+interface Props {
+  entry: CollectionEntry<"experience">;
+}
+
+const shortDate = Intl.DateTimeFormat("en-GB", {
+  year: "numeric",
+  month: "short",
+});
+
+const fmt = fmtDate(shortDate);
+
+const { entry } = Astro.props;
+const { company, role, startDate, endDate } = entry.data;
+const { Content } = await entry.render();
+---
+
+<li class={styles.experience}>
+  <div class={styles.title}>
+    {role}
+    <span class='dot-separator'></span>
+    <a href={company.link}>{company.name}</a>
+  </div>
+  <div class={styles.date}>{fmt(startDate)} – {fmt(endDate)}</div>
+  <div class={styles.details}><Content /></div>
+</li>

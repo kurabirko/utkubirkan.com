@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from "astro:content";
+import styles from "../styles/components/education.module.scss";
+import { fmtDate } from "../utils/fmt-date";
+
+interface Props {
+  entry: CollectionEntry<"education">;
+}
+
+const shortDate = Intl.DateTimeFormat("en-GB", {
+  year: "numeric",
+  month: "long",
+});
+
+const fmt = fmtDate(shortDate);
+
+const { entry } = Astro.props;
+const { school, degree, graduationDate } = entry.data;
+const { Content } = await entry.render();
+---
+
+<li class={styles.education}>
+  <div class={styles.title}>{degree}</div>
+  <div class={styles.wrapper}>
+    <div class={styles.school}>{school}</div>
+    <span class='breakpoint-hidden dot-separator'></span>
+    <div class={styles.date}>{fmt(graduationDate)}</div>
+  </div>
+  <div class={styles.details}><Content /></div>
+</li>

@@ -1,0 +1,29 @@
+@use "variables" as cv;
+@use "utopia" as u;
+
+@mixin viewport-breakpoint {
+  @media screen and (min-width: (cv.$viewport-width-break + px)) {
+    @content;
+  }
+}
+
+$_container-width-break: cv.$container-width-break + px;
+@mixin container-breakpoint {
+  @container (min-width: #{$_container-width-break}) {
+    @content;
+  }
+}
+
+@mixin section-grid {
+  grid-template-columns: subgrid;
+  align-items: baseline;
+
+  @include container-breakpoint {
+    display: grid;
+    margin-inline: u.space("xs-s");
+  }
+
+  &:not(:last-child) {
+    margin-block-end: u.space("m-l");
+  }
+}

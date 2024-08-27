@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import styles from "../styles/components/main-content.module.scss";
+import Experience from "./Experience.astro";
+import Education from "./Education.astro";
+import { compareDate } from "../utils";
+
+const experiences = await getCollection("experience");
+const educations = await getCollection("education");
+experiences.sort(compareDate((i) => i.data.startDate));
+educations.sort(compareDate((i) => i.data.graduationDate));
+---
+
+<main class={styles.container}>
+  <section>
+    <h2>Professional Experience</h2>
+    <ul role='list'>
+      {experiences.map((entry) => <Experience {entry} />)}
+    </ul>
+  </section>
+  <section>
+    <h2>Education</h2>
+    <ul role='list'>
+      {educations.map((entry) => <Education {entry} />)}
+    </ul>
+  </section>
+</main>

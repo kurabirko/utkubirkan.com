@@ -1,0 +1,86 @@
+@use "node_modules/utopia-core-scss/src/utopia" as utopia;
+@use "variables" as v;
+@use "sass:map";
+@use "sass:list";
+
+@function _calculateTypeScale() {
+  $type-scale-map: ();
+  $type-scale: utopia.calculateTypeScale(
+    (
+      "minWidth": v.$viewport-width-min,
+      "maxWidth": v.$viewport-width-max,
+      "minFontSize": v.$font-size-min,
+      "maxFontSize": v.$font-size-max,
+      "minTypeScale": v.$font-scale-min,
+      "maxTypeScale": v.$font-scale-max,
+      "positiveSteps": 6,
+      "negativeSteps": 2,
+    )
+  );
+
+  @each $size in $type-scale {
+    $type-scale-map: map.set(
+      $type-scale-map,
+      map.get($size, "step"),
+      map.get($size, "clamp")
+    );
+  }
+
+  @return $type-scale-map;
+}
+
+@function _calculateSpaceScale() {
+  $space-scale-map: ();
+  $space-scale: utopia.calculateSpaceScale(
+    (
+      "minWidth": v.$viewport-width-min,
+      "maxWidth": v.$viewport-width-max,
+      "minSize": v.$font-size-min,
+      "maxSize": v.$font-size-max,
+      "positiveSteps": (
+        1.5,
+        2,
+        3,
+        4,
+      ),
+      "negativeSteps": (
+        0.75,
+        0.5,
+        0.25,
+      ),
+      "customSizes": (
+        "s-l",
+        "s-xl",
+      ),
+    )
+  );
+
+  $space-scale-all: list.join(
+    list.join(
+      map.get($space-scale, "sizes"),
+      map.get($space-scale, "oneUpPairs")
+    ),
+    map.get($space-scale, "customPairs")
+  );
+
+  @each $size in $space-scale-all {
+    $space-scale-map: map.set(
+      $space-scale-map,
+      map.get($size, "label"),
+      map.get($size, "clamp")
+    );
+  }
+
+  @return $space-scale-map;
+}
+
+$_space-scale: _calculateSpaceScale();
+$_type-scale: _calculateTypeScale();
+
+@function step($step) {
+  @return unquote(map.get($_type-scale, $step));
+}
+
+@function space($space) {
+  @return unquote(map.get($_space-scale, $space));
+}

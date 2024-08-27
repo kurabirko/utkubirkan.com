@@ -1,0 +1,15 @@
+@use "../abstract" as cv;
+
+@layer utils {
+  .cv-quote-frame {
+    background-color: #00000006;
+    margin-block-start: cv.space("xs-s");
+    margin-inline: cv.space("2xs-xs");
+    padding: cv.space("s-m");
+    border-inline-start: solid 2pt black;
+  }
+
+  .cv-quote-frame__doi {
+    font-variant-caps: all-small-caps;
+  }
+}

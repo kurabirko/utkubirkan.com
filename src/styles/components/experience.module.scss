@@ -1,0 +1,30 @@
+@use "../abstract" as cv;
+
+.experience {
+  grid-template-areas:
+    "date title"
+    "none details";
+
+  @include cv.section-grid;
+}
+
+.experience > .title {
+  font-weight: 600;
+  line-height: 1;
+  font-size: cv.step(1);
+  margin-block-end: cv.space("3xs");
+
+  grid-area: title;
+}
+
+.experience > .date {
+  grid-area: date;
+  line-height: 1;
+  font-style: italic;
+  text-wrap: nowrap;
+  margin-block-end: cv.space("2xs");
+}
+
+.experience > .details {
+  grid-area: details;
+}

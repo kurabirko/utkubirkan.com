@@ -1,0 +1,65 @@
+@use "../abstract" as cv;
+
+.education {
+  grid-template-areas:
+    "date title"
+    "none school"
+    "none details";
+
+  @include cv.section-grid;
+}
+
+.education .title {
+  grid-area: title;
+  margin-block-end: cv.space("3xs");
+
+  line-height: 1;
+  font-weight: 600;
+  font-size: cv.step(1);
+}
+
+.education .date {
+  grid-area: date;
+  text-wrap: nowrap;
+
+  line-height: 1;
+  font-style: italic;
+}
+
+.education .school {
+  grid-area: school;
+
+  font-style: italic;
+}
+
+.education .details {
+  grid-area: details;
+}
+
+.education .wrapper {
+  margin-block-end: cv.space("2xs");
+}
+
+.education .date,
+.education .school {
+  display: inline-block;
+}
+
+@include cv.container-breakpoint {
+  .education .wrapper {
+    display: contents;
+  }
+
+  .education .date,
+  .education .school {
+    display: block;
+  }
+
+  .education .school {
+    margin-block-end: cv.space("2xs");
+  }
+
+  .education .breakpoint-hidden {
+    display: none;
+  }
+}

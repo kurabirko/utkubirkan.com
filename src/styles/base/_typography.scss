@@ -1,0 +1,32 @@
+@use "../abstract" as v;
+
+@layer theme {
+  body {
+    font-size: v.step(0);
+    font-family: garamond-premier-pro, serif;
+  }
+
+  p {
+    text-align: justify;
+  }
+
+  h2 {
+    font-size: v.step(2);
+    font-weight: 600;
+    font-variant-caps: small-caps;
+    border-block-end: 0.12rem solid black;
+  }
+
+  h1 {
+    font-family: garamond-premier-pro-display, serif;
+    font-size: v.step(5);
+    // text-transform: uppercase;
+    font-variant-caps: small-caps;
+    font-weight: 500;
+  }
+
+  a,
+  a:hover {
+    color: inherit;
+  }
+}

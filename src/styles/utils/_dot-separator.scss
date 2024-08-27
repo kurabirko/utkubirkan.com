@@ -1,0 +1,7 @@
+@layer utils {
+  i.dot-separator::after,
+  span.dot-separator::after {
+    content: "⸱";
+    margin-inline: var(--cv-space-3xs-2xs);
+  }
+}

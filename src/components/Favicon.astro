@@ -1,0 +1,8 @@
+---
+import { getImage } from "astro:assets";
+import faviconOriginal from "../images/favicon.svg";
+
+const favicon = await getImage({ src: faviconOriginal, format: "svg" });
+---
+
+<link rel='icon' href={favicon.src} type='image/svg+xml' />

@@ -1,0 +1,16 @@
+@use "../abstract" as cv;
+
+.footer {
+  font-family: "source-sans-3-variable", sans-serif;
+  font-size: calc(cv.step(0) * 0.9);
+  font-variation-settings: "wght" 500;
+
+  color: gray;
+
+  margin-block: cv.space("s-l");
+  padding-block-end: cv.space("3xs");
+
+  @include cv.viewport-breakpoint {
+    text-align: center;
+  }
+}

@@ -1,0 +1,54 @@
+@use "../abstract" as cv;
+
+$top-height: calc(
+  cv.space("s-xl") + cv.space("s-l") + cv.space("s-m") + cv.space("3xs") +
+    cv.step(5) + cv.step(1)
+);
+
+.sidebar {
+  grid-template-rows: subgrid;
+  padding-block: cv.space("s-xl") cv.space("s-l");
+
+  @include cv.viewport-breakpoint {
+    display: grid;
+    top: 0;
+    position: sticky;
+  }
+}
+
+.sidebar > .row1 {
+  line-height: 1;
+  margin-inline-end: cv.space("s-xl");
+}
+
+.sidebar > .row2 {
+  min-width: 100%;
+  width: 0;
+
+  flex-direction: column;
+
+  @include cv.viewport-breakpoint {
+    display: flex;
+    height: calc(100dvh - $top-height);
+    min-height: 100%;
+  }
+}
+
+.row1 > h1 {
+  margin-block-end: cv.space("3xs");
+}
+
+.row1 > p {
+  font-size: cv.step(1);
+  font-style: italic;
+
+  margin-block-end: cv.space("s-m");
+}
+
+.row2 > .icons {
+  margin-block-start: cv.space("xs-s");
+
+  @include cv.viewport-breakpoint {
+    margin-block-start: auto;
+  }
+}

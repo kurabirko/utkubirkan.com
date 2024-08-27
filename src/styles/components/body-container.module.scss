@@ -1,0 +1,32 @@
+@use "../abstract" as cv;
+
+$max-width: cv.$viewport-width-max + px;
+.container {
+  // Grid layout
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto 1fr;
+  align-items: start;
+
+  // Spacing
+  column-gap: cv.space("s-xl");
+  padding-inline: cv.space("s-xl");
+
+  // Container width
+  max-width: calc($max-width + 2 * cv.space("s-xl"));
+  margin-inline: auto;
+
+  @include cv.viewport-breakpoint {
+    display: grid;
+  }
+}
+
+.container > .colLeft {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.container > .colRight {
+  grid-column: 2;
+  grid-row: 2 / span 2;
+  container-type: inline-size;
+}
