@@ -39,8 +39,9 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 			align-items: baseline;
 			column-gap: var(--space-s);
 		}
+		/* Entries sit clearly further apart than the bullets inside them. */
 		article + article {
-			margin-block-start: var(--space-xl);
+			margin-block-start: var(--space-xl-2xl);
 		}
 		h3 {
 			grid-area: title;
@@ -71,14 +72,17 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 			grid-area: location;
 			text-align: end;
 		}
+		/* A little more than the gap between bullets, so the bullets read as
+		   one block under the entry's header. */
 		.body {
 			grid-area: body;
-			margin-block-start: var(--space-m);
+			margin-block-start: var(--space-l);
 		}
-		/* Visible gap between items must exceed the ~0.9em gap between lines
-		   (1.55 line height minus cap height) or items blur together. */
+		/* Visible gap between items must clearly exceed the ~0.9em gap between
+		   lines (1.55 line height minus cap height), or wrapped items blur
+		   together, especially in the narrow mobile column. */
 		.body :global(li + li) {
-			margin-block-start: 1.1em;
+			margin-block-start: 1.5em;
 		}
 		/* Technologies are marked as <strong> in the content; show them as a
 		   tinted highlight instead of bold. */
