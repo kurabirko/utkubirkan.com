@@ -43,7 +43,8 @@ const { title, printOnly = false } = Astro.props;
 		h2::after {
 			content: '';
 			flex: 1;
-			border-top: 1px solid var(--rule);
+			/* The rubric at reduced strength: red in hue, but quieter than the label. */
+			border-top: 1px solid color-mix(in oklch, var(--rubric) 35%, transparent);
 		}
 	}
 </style>
