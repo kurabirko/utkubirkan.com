@@ -18,32 +18,65 @@ const { name, title, location, summary, links } = profile.data;
 
 <style>
 	@layer components {
+		/* Hero: fills most of the first screen with the name set large, and
+		   steps down at breakpoints (font sizes are fixed, not fluid). */
+		header {
+			min-height: min(66svh, 40rem);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding-block: var(--space-l) var(--space-xl);
+		}
 		.kicker {
-			margin-bottom: var(--space-s);
+			font-size: 1.4rem;
+			letter-spacing: 0.1em;
 		}
 		h1 {
-			font-size: 3.6rem;
-			line-height: 1.02;
+			margin-top: var(--space-m);
+			font-size: 7rem;
+			line-height: 0.92;
+			letter-spacing: -0.01em;
 		}
 		.location {
-			margin-top: var(--space-s);
+			margin-top: var(--space-m-l);
+			font-size: 1.6rem;
 		}
 		.summary {
 			margin-top: var(--space-m);
-			font-size: 1.3rem;
+			font-size: 1.5rem;
+			max-width: 32ch;
 		}
 		nav {
 			display: flex;
 			flex-wrap: wrap;
-			gap: var(--space-xs) var(--space-m);
-			margin-top: var(--space-m);
+			gap: var(--space-xs) var(--space-l);
+			margin-top: var(--space-l);
+			font-size: 1.3rem;
 		}
 		nav a {
 			text-box: trim-both cap alphabetic;
 		}
-		@media (max-width: 32rem) {
+		@media (max-width: 48rem) {
 			h1 {
-				font-size: 2.8rem;
+				font-size: 5rem;
+			}
+		}
+		@media (max-width: 32rem) {
+			header {
+				min-height: min(60svh, 30rem);
+			}
+			.kicker {
+				font-size: 1.15rem;
+			}
+			h1 {
+				font-size: 3.25rem;
+			}
+			.location,
+			.summary {
+				font-size: 1.3rem;
+			}
+			nav {
+				font-size: 1.2rem;
 			}
 		}
 	}
