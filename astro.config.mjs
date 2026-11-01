@@ -5,6 +5,12 @@ import { defineConfig, fontProviders } from 'astro/config';
 export default defineConfig({
 	// Used for the canonical URL, og:url and the JSON-LD Person url.
 	site: 'https://utkubirkan.com',
+	build: {
+		// The CSS is a few KB on a single page, so inline it: the page paints
+		// without waiting for a stylesheet request. Revisit if the site grows
+		// more pages (each would repeat it) or the CSS grows large.
+		inlineStylesheets: 'always',
+	},
 	// Downloaded at build time and served from the site; no requests to Google.
 	fonts: [
 		{
