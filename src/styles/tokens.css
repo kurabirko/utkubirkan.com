@@ -1,14 +1,14 @@
 /*
   Paper and ink in near-neutrals, with just a trace of warmth so the paper
   reads as natural white rather than cream (and, in dark mode, charcoal
-  rather than brown), and a brick-red rubric for labels and accents, after
+  rather than brown), and a burgundy rubric for labels and accents, after
   the palette of flora.alpacasoft.dev.
 */
 :root {
 	--paper: oklch(98.6% 0.004 85);
 	--ink: oklch(24.5% 0.012 70);
 	--muted: oklch(45% 0.015 70);
-	--rubric: oklch(47% 0.135 32);
+	--rubric: oklch(42% 0.13 15);
 	--rule: oklch(88% 0.008 80);
 	--tint: oklch(0% 0 0 / 5%); /* neutral gray keyword highlight */
 
@@ -28,7 +28,7 @@
 		--paper: oklch(18.5% 0.004 70);
 		--ink: oklch(92% 0.006 85);
 		--muted: oklch(73% 0.008 80);
-		--rubric: oklch(72% 0.11 38);
+		--rubric: oklch(71% 0.1 12);
 		--rule: oklch(30% 0.006 70);
 		--tint: oklch(100% 0 0 / 7%);
 	}
