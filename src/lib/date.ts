@@ -1,5 +1,5 @@
 // Formats a "YYYY-MM" string as e.g. "Sep 2022".
-export function formatYearMonth(value: string): string {
+function formatYearMonth(value: string): string {
 	const [year, month] = value.split('-').map(Number);
 	return new Date(Date.UTC(year, month - 1)).toLocaleDateString('en-US', {
 		month: 'short',

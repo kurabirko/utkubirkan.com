@@ -4,7 +4,7 @@ interface Props {
 	subheading: string;
 	subheadingNote?: string; // second line under the subheading, same style, e.g. honors
 	dates: string;
-	location?: string;
+	location: string;
 }
 
 const { heading, subheading, subheadingNote, dates, location } = Astro.props;
@@ -17,7 +17,7 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 		{subheadingNote && <span class="note">{subheadingNote}</span>}
 	</p>
 	<p class="dates small-caps rubric">{dates}</p>
-	{location && <p class="location muted">{location}</p>}
+	<p class="location muted">{location}</p>
 	<div class="body">
 		<slot />
 	</div>

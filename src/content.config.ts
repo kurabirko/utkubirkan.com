@@ -16,7 +16,6 @@ const profile = defineCollection({
 		name: z.string(),
 		title: z.string(),
 		location: z.string(),
-		summary: z.string().optional(),
 		// Your name as it appears in citations, highlighted in the publications list.
 		citationName: z.string().optional(),
 		links: z.array(link),

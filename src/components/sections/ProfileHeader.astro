@@ -3,7 +3,7 @@ import { getEntry } from 'astro:content';
 
 const profile = await getEntry('profile', 'main');
 if (!profile) throw new Error('Missing "main" entry in src/content/profile.yaml');
-const { name, title, location, summary, links } = profile.data;
+const { name, title, location, links } = profile.data;
 ---
 
 <header>
@@ -11,7 +11,6 @@ const { name, title, location, summary, links } = profile.data;
 		<p class="kicker rubric">{title}</p>
 		<h1>{name}</h1>
 		<p class="location muted">{location}</p>
-		{summary && <p class="summary">{summary}</p>}
 		<nav>
 			{
 				links.map((link, i) => (
@@ -72,11 +71,6 @@ const { name, title, location, summary, links } = profile.data;
 			margin-block-start: var(--space-m-l);
 			font-size: calc(var(--line-size) * 1rem);
 		}
-		.summary {
-			margin-block-start: var(--space-m);
-			font-size: 1.5rem;
-			max-inline-size: 32ch;
-		}
 		nav {
 			display: flex;
 			flex-wrap: wrap;
@@ -106,9 +100,6 @@ const { name, title, location, summary, links } = profile.data;
 				--name-size: 3.25;
 				--line-size: 1.3;
 				--nav-size: 1.2;
-			}
-			.summary {
-				font-size: 1.3rem;
 			}
 		}
 
@@ -186,7 +177,6 @@ const { name, title, location, summary, links } = profile.data;
 				.kicker,
 				h1,
 				.location,
-				.summary,
 				nav {
 					/* Longhands: a nameless shorthand gets minified to animation: none. */
 					animation-timing-function: linear;
@@ -200,7 +190,6 @@ const { name, title, location, summary, links } = profile.data;
 				   value here when a normal rule on the element also sets it. */
 				h1,
 				.location,
-				.summary,
 				nav {
 					margin-block-start: 0;
 				}
@@ -212,14 +201,9 @@ const { name, title, location, summary, links } = profile.data;
 					--gap: var(--space-m-l);
 					--gap-end: var(--space-xs);
 				}
-				.location,
-				.summary {
+				.location {
 					--gap: var(--space-l);
 					--gap-end: var(--space-s);
-				}
-				.location:has(+ .summary) {
-					--gap: var(--space-m);
-					--gap-end: var(--space-xs);
 				}
 				.kicker {
 					animation-name: hero-kicker;
@@ -227,8 +211,7 @@ const { name, title, location, summary, links } = profile.data;
 				h1 {
 					animation-name: hero-name;
 				}
-				.location,
-				.summary {
+				.location {
 					animation-name: hero-line;
 				}
 				nav {

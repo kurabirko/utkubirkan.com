@@ -1,4 +1,4 @@
-/* Small capitals for labels, dates and kickers. */
+/* Small capitals, for the entry dates. */
 .small-caps {
 	font-variant-caps: all-small-caps;
 	font-variant-numeric: lining-nums tabular-nums;

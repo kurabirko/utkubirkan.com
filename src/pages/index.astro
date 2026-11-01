@@ -12,8 +12,7 @@ import Skills from '../components/sections/Skills.astro';
 const profile = (await getEntry('profile', 'main'))!.data;
 
 const title = profile.name;
-const description =
-	profile.summary ?? `${profile.name}, ${profile.title} based in ${profile.location}. Curriculum vitae.`;
+const description = `${profile.name}, ${profile.title} based in ${profile.location}. Curriculum vitae.`;
 
 // schema.org Person, so search engines can show a profile card.
 const jsonLd = {
