@@ -74,8 +74,20 @@ try {
 			console.error(`build-pdf: Chrome exited with ${code} and no PDF was written.`);
 			process.exit(1);
 		}
+		// Every page must be A4 (595 × 842 pt), whichever Chrome printed it.
+		const pdf = await Bun.file(output).text();
+		const boxes = [...pdf.matchAll(/\/MediaBox\s*\[\s*0 0 ([\d.]+) ([\d.]+)\s*\]/g)];
+		const a4 = (box: RegExpMatchArray) =>
+			Math.abs(Number(box[1]) - 595) < 2 && Math.abs(Number(box[2]) - 842) < 2;
+		if (boxes.length === 0 || !boxes.every(a4)) {
+			const sizes = boxes.map((box) => `${box[1]}×${box[2]}`).join(', ') || 'none found';
+			console.error(`build-pdf: expected A4 pages (595×842 pt), got ${sizes}.`);
+			process.exit(1);
+		}
 		const size = Bun.file(output).size;
-		console.log(`build-pdf: wrote dist/utku-birkan-cv.pdf (${Math.round(size / 1024)} KB)`);
+		console.log(
+			`build-pdf: wrote dist/utku-birkan-cv.pdf (${boxes.length} A4 pages, ${Math.round(size / 1024)} KB)`,
+		);
 	} finally {
 		server.stop(true);
 	}
