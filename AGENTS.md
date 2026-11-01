@@ -37,7 +37,7 @@ All CV content lives in content collections defined in `src/content.config.ts`; 
 - Dates are `YYYY-MM` strings, formatted by `src/lib/date.ts` ("Sep 2022"). Omit `end` for a current role ("Present").
 - Entries are sorted newest first in the section components.
 - Each section has a component in `src/components/sections/` that queries its own collection; `src/pages/index.astro` only orders them.
-- `src/components/Seo.astro` renders the `<head>` metadata (title, description, Open Graph, theme colours, JSON-LD); `index.astro` builds the description and a schema.org `Person` from `profile`. Canonical, `og:url` and the `Person` url come from `site` in `astro.config.mjs` (`https://utkubirkan.com`).
+- `src/components/Seo.astro` renders the `<head>` metadata (title, description, Open Graph, theme colours, JSON-LD); `index.astro` builds the description and a schema.org `Person` from `profile`. It also emits the link preview image, `public/og.png` (1200×630: the hero's kicker, name and the domain in EB Garamond on the paper colour, rendered from the site's font files; regenerate it if the name, title or colours change). Canonical, `og:url`, `og:image` and the `Person` url come from `site` in `astro.config.mjs` (`https://utkubirkan.com`).
 
 ### Writing CV bullets
 

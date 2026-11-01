@@ -14,6 +14,14 @@ const profile = (await getEntry('profile', 'main'))!.data;
 const title = profile.name;
 const description = `${profile.name}, ${profile.title} based in ${profile.location}. Curriculum vitae.`;
 
+// Link preview card, generated in the site's type and colours.
+const image = {
+	src: '/og.png',
+	alt: `${profile.name}, ${profile.title}. Curriculum vitae.`,
+	width: 1200,
+	height: 630,
+};
+
 // schema.org Person, so search engines can show a profile card.
 const jsonLd = {
 	'@context': 'https://schema.org',
@@ -42,7 +50,7 @@ const jsonLd = {
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="generator" content={Astro.generator} />
-		<Seo title={title} description={description} jsonLd={jsonLd} />
+		<Seo title={title} description={description} image={image} jsonLd={jsonLd} />
 		<!-- Preload only the Latin file, which sets the name (the largest
 		     contentful paint); latin-ext is fetched when its letters appear. -->
 		<Font cssVariable="--font-eb-garamond" preload={[{ subset: 'latin', style: 'normal' }]} />
