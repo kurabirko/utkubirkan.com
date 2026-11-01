@@ -49,7 +49,15 @@ All CV content lives in content collections defined in `src/content.config.ts`; 
 
 ## Styling
 
-- Plain scoped `<style>` in components plus `src/styles/global.css`; no CSS framework.
+- Use Baseline CSS features (check MDN's Baseline banner; it can be more current than other trackers). Non-Baseline features are fine as progressive enhancements: the page must still look correct and work in browsers that ignore them (e.g. `text-wrap: pretty`). Never depend on a non-Baseline feature for layout or content.
+- Plain scoped `<style>` in components plus the files in `src/styles/`; no CSS framework.
+- Everything is in a cascade layer, declared in `src/styles/global.css` (the only stylesheet `BaseLayout` imports): `@layer reset, tokens, base, components;` — later layers win regardless of specificity.
+  - `reset`: `reset.css`. `tokens`: `tokens.css` (colors, fonts, measure) and `fluid.css` (space scale). `base`: `base.css` (element defaults).
+  - Every component wraps its `<style>` contents in `@layer components { … }`. Never leave styles unlayered — unlayered rules beat every layer.
+  - New global files get imported into the right layer from `global.css` with `@import './file.css' layer(name);`.
+- `src/styles/reset.css` is Josh Comeau's reset verbatim — keep it as published, even though a few of its lines aren't Baseline; they're all progressive enhancements. It zeroes all margins, so don't re-add `margin: 0`.
+- Text blocks use `text-box: trim-both cap alphabetic` (set in `base.css` for headings, `p`, `li`, `dt`, `dd`; components add it to their own grid/flex text items). Margins and gaps therefore measure the visible space between letterforms — set them by eye, and keep the gap between list items larger than the ~0.9em gap between lines.
+- Spacing comes from the Utopia fluid space scale in `src/styles/fluid.css` (320px → 1240px, 16px → 18px base): `--space-*` and pairs like `--space-s-m` for margins, gaps and padding. Don't hard-code `rem`/`px` spacing; regenerate the file with the calculator link in its header if the scale changes. Font sizes are fixed `rem` values — a fluid type scale was tried and rejected. Use `em` only for values that belong to the text itself (letter-spacing, list indents, gaps between list items).
 - Colors are tokens on `:root` (`--bg`, `--text`, `--muted`, `--border`, `--accent`), redefined under `prefers-color-scheme: dark`. Use tokens, never raw colors.
 - Must work on phones down to 320px with no horizontal scroll. The mobile breakpoint is `max-width: 32rem`: `TimelineItem` stacks title / organization / dates + location, and skills collapse to one column. Check narrow widths after layout changes.
 

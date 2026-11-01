@@ -38,7 +38,9 @@ const degrees = (await getCollection('education')).sort((a, b) =>
 </Section>
 
 <style>
-	.detail {
-		margin: 0 0 0.5rem;
+	@layer components {
+		.detail {
+			margin-bottom: 1.1em;
+		}
 	}
 </style>

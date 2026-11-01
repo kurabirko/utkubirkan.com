@@ -27,9 +27,11 @@ const { title, description } = Astro.props;
 </html>
 
 <style>
-	main {
-		max-width: var(--measure);
-		margin: 0 auto;
-		padding: 4rem 1rem 6rem;
+	@layer components {
+		main {
+			max-width: var(--measure);
+			margin: 0 auto;
+			padding: var(--space-xl-2xl) var(--space-s) var(--space-2xl-3xl);
+		}
 	}
 </style>

@@ -32,11 +32,13 @@ const self = (await getEntry('profile', 'main'))?.data.citationName;
 </Section>
 
 <style>
-	.publications {
-		list-style: none;
-		padding: 0;
-	}
-	.publications li + li {
-		margin-top: 1rem;
+	@layer components {
+		.publications {
+			list-style: none;
+			padding: 0;
+		}
+		.publications li + li {
+			margin-top: var(--space-m);
+		}
 	}
 </style>

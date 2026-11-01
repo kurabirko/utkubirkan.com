@@ -16,20 +16,29 @@ const { name, title, location, summary, links } = profile.data;
 </header>
 
 <style>
-	header {
-		margin-bottom: 3rem;
-	}
-	h1 {
-		font-size: 2.5rem;
-		letter-spacing: -0.02em;
-	}
-	.meta {
-		color: var(--muted);
-		margin: 0.25rem 0 1rem;
-	}
-	nav {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
+	@layer components {
+		header {
+			margin-bottom: var(--space-xl-2xl);
+		}
+		h1 {
+			font-size: 2.5rem;
+			letter-spacing: -0.02em;
+		}
+		.meta {
+			color: var(--muted);
+			margin-top: var(--space-s);
+		}
+		.summary {
+			margin-top: var(--space-s-m);
+		}
+		nav {
+			display: flex;
+			flex-wrap: wrap;
+			gap: var(--space-xs) var(--space-s-m);
+			margin-top: var(--space-s-m);
+		}
+		nav a {
+			text-box: trim-both cap alphabetic;
+		}
 	}
 </style>

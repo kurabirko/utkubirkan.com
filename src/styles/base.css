@@ -1,0 +1,37 @@
+body {
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-sans);
+	line-height: 1.6;
+}
+
+a {
+	color: var(--accent);
+	text-underline-offset: 0.2em;
+}
+
+h1,
+h2,
+h3 {
+	line-height: 1.2;
+}
+
+ul {
+	padding-left: 1.2em;
+}
+
+/*
+  Trim the half-leading above the cap height and below the baseline, so a
+  margin or gap is the actual visible space between letterforms. Line height
+  still sets the spacing between lines inside a block. Components trim their
+  own block-level text (grid/flex items) the same way.
+*/
+h1,
+h2,
+h3,
+p,
+li,
+dt,
+dd {
+	text-box: trim-both cap alphabetic;
+}
