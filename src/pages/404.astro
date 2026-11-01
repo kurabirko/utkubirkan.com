@@ -1,0 +1,73 @@
+---
+// Cloudflare Pages serves dist/404.html, with a 404 status, for any path
+// that doesn't exist; without it, every unknown path got the home page.
+import Head from '../components/Head.astro';
+import { getEntry } from 'astro:content';
+
+const profile = (await getEntry('profile', 'main'))!.data;
+---
+
+<html lang="en">
+	<Head>
+		<title>Page not found · {profile.name}</title>
+		<meta name="robots" content="noindex" />
+	</Head>
+	<body>
+		<main>
+			<header>
+				<p class="kicker rubric">Error 404</p>
+				<h1>Page Not Found</h1>
+				<p class="lead muted">There’s nothing at this address.</p>
+				<p class="back"><a href="/">Go to the home page</a></p>
+			</header>
+		</main>
+	</body>
+</html>
+
+<style>
+	@layer components {
+		/* A smaller version of the home page's hero: centred in the first
+		   screen, with the same kicker and type. */
+		header {
+			min-block-size: calc(100svb - var(--space-xl-2xl) - var(--space-2xl-3xl));
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+		/* Capitals at 70%, like the home page's kicker (the font has no
+		   small-cap glyphs). */
+		.kicker {
+			text-transform: uppercase;
+			font-size: 0.98rem;
+			letter-spacing: 0.143em;
+		}
+		h1 {
+			margin-block-start: var(--space-m);
+			font-size: 4.5rem;
+			line-height: 0.92;
+			letter-spacing: -0.01em;
+		}
+		.lead {
+			margin-block-start: var(--space-m-l);
+			font-size: 1.6rem;
+		}
+		.back {
+			margin-block-start: var(--space-l);
+			font-size: 1.3rem;
+		}
+		@media (max-width: 32rem) {
+			.kicker {
+				font-size: 0.805rem;
+			}
+			h1 {
+				font-size: 2.75rem;
+			}
+			.lead {
+				font-size: 1.3rem;
+			}
+			.back {
+				font-size: 1.2rem;
+			}
+		}
+	}
+</style>

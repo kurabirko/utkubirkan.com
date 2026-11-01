@@ -1,0 +1,28 @@
+---
+// The <head> every page shares: layer order, viewport, icons and the font.
+// Page-specific metadata (title, description, SEO) goes in the slot.
+// Pages import this before any other component, so global.css comes first.
+import '../styles/global.css';
+import { Font } from 'astro:assets';
+---
+
+<head>
+	<meta charset="utf-8" />
+	<!-- Cascade layer order, before any stylesheet. Layers are ordered by
+	     first appearance, and component styles can be injected ahead of
+	     global.css, so the order can't depend on import order. -->
+	<style is:inline>
+		@layer reset, tokens, base, components, utilities;
+	</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- The .ico declares its size so browsers that support SVG favicons
+	     pick the SVG. -->
+	<link rel="icon" href="/favicon.ico" sizes="32x32" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+	<meta name="generator" content={Astro.generator} />
+	<slot />
+	<!-- Preload only the Latin file, which sets the name (the largest
+	     contentful paint); latin-ext is fetched when its letters appear. -->
+	<Font cssVariable="--font-eb-garamond" preload={[{ subset: 'latin', style: 'normal' }]} />
+</head>
