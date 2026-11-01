@@ -1,0 +1,54 @@
+name: Deploy
+
+# A push to main deploys to production (utkubirkan.com); a push to any other
+# branch deploys a dev preview at <branch>.utkubirkan-com.pages.dev.
+on:
+  push:
+    # Branches only; without a filter, pushing a tag would deploy too.
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name == 'main' && 'production' || 'dev' }}
+      url: ${{ steps.deploy.outputs.url }}
+    # One deployment per branch at a time; a newer push waits rather than
+    # cancelling one that's uploading.
+    concurrency:
+      group: deploy-${{ github.ref_name }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+
+      # Bun only: the build runs Astro on Bun like the local scripts.
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run build
+
+      # Cloudflare Pages treats the project's production branch (main) as
+      # production and any other branch name as a preview, under an alias
+      # made from the branch name: lowercased, other characters replaced by
+      # hyphens.
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        run: |
+          bunx wrangler@4 pages deploy dist --project-name=utkubirkan-com --branch="$BRANCH" --commit-hash="$GITHUB_SHA"
+          if [ "$BRANCH" = main ]; then
+            echo "url=https://utkubirkan.com" >> "$GITHUB_OUTPUT"
+          else
+            alias=$(printf '%s' "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+|-+$//g')
+            echo "url=https://$alias.utkubirkan-com.pages.dev" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          BRANCH: ${{ github.ref_name }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}

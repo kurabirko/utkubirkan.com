@@ -68,6 +68,15 @@ The design is a printed book, after [flora.alpacasoft.dev](https://flora.alpacas
 - `ProfileHeader` is a hero: `min-height: min(66svh, 40rem)`, content vertically centred, name at 7rem / 5rem (≤48rem) / 3.25rem (≤32rem). The name must fit on one line at each step (it's ~4.7em wide in EB Garamond). As a progressive enhancement (`@supports (animation-timeline: scroll())`, screen only, no reduced motion) it stays in place while the content scrolls towards it, shrinking its type, rising towards the top (`--top-end`) and drawing its lines together via CSS scroll-driven animations — no JavaScript, no header bar. The `<header>` keeps a fixed height and the `.hero` inside is `position: sticky`, so it's released (and scrolls away) when the first section reaches it at the normal section spacing. The shrink ends at that same scroll, so no extra space is left: `--range` ends at the release point, computed from the compact hero's height (`--hero-compact-h`, its trimmed line heights in `cap` units plus the gaps) — update that formula when the hero's compact sizes, gaps or lines change. The kicker is set as capitals at 70% (`text-transform: uppercase`, sizes × 0.7) rather than `.small-caps`: the font has no small-cap glyphs, so browsers synthesise them, and Safari draws synthesised small caps at whole-pixel sizes, so they grew in visible steps while animating. The animated gaps are `padding-bottom` set only in the keyframes (`--gap` → `--gap-end`): Safari leaves a spacing property at its start value when a normal rule on the element also sets it. Animation longhands are used and `animation-timeline` goes through a custom property, because the minifier turns a nameless `animation` shorthand into `animation: none` and folds `animation-timeline` into the shorthand.
 - Must work on phones down to 320px with no horizontal scroll. The mobile breakpoint is `max-width: 32rem`: headings shrink and skills collapse to one column. Check narrow widths after layout changes.
 
+## Deployment
+
+Cloudflare Pages project `utkubirkan-com`, deployed by direct upload from `.github/workflows/deploy.yml` on every branch push (or manually from the Actions tab):
+
+- `main` deploys to production at https://utkubirkan.com (`main` is the project's production branch; GitHub environment `production`).
+- Any other branch deploys a dev preview at `https://<branch>.utkubirkan-com.pages.dev`, with the branch name lowercased and other characters turned into hyphens (GitHub environment `dev`). Use a branch to try changes before merging to `main`.
+
+It needs the repository secret `CLOUDFLARE_API_TOKEN` (a token with the Cloudflare Pages: Edit permission) and the repository variable `CLOUDFLARE_ACCOUNT_ID` (not secret).
+
 ## Git
 
 - Conventional Commits: `feat:`, `fix:`, `style:`, `refactor:`, `docs:`, `chore:`.
