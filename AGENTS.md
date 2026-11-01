@@ -50,7 +50,7 @@ All CV content lives in content collections defined in `src/content.config.ts`; 
 
 ## Styling
 
-The design is a printed book, after [flora.alpacasoft.dev](https://flora.alpacasoft.dev/) ([source](https://github.com/wn-mitch/tikz-flora/tree/main/site)): warm paper and ink, a brick-red rubric for labels, EB Garamond throughout (IM Fell English was tried for headings and rejected), small-caps labels (title kicker, dates, skill labels), and dates hanging in the left margin. Take only the design system from it — no ornaments, fleurons, numerals or animations.
+The design is a printed book, after [flora.alpacasoft.dev](https://flora.alpacasoft.dev/) ([source](https://github.com/wn-mitch/tikz-flora/tree/main/site)): near-neutral paper and ink with only a trace of warmth (natural white, and charcoal in dark mode; the original cream was too yellow), a brick-red rubric for labels, EB Garamond throughout (IM Fell English was tried for headings and rejected), small-caps labels (title kicker, dates, skill labels), and dates hanging in the left margin. Take only the design system from it — no ornaments, fleurons, numerals or animations.
 
 - Use Baseline CSS features (check MDN's Baseline banner; it can be more current than other trackers). Non-Baseline features are fine as progressive enhancements: the page must still look correct and work in browsers that ignore them (e.g. `text-wrap: pretty`). Never depend on a non-Baseline feature for layout or content.
 - Plain scoped `<style>` in components plus the files in `src/styles/`; no CSS framework.
