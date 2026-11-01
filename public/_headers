@@ -1,5 +1,22 @@
 # Cloudflare Pages response headers.
 
+# Security headers for every response.
+# - CSP: everything the page loads is its own (inlined CSS, self-hosted fonts
+#   and icons) and there are no scripts; the JSON-LD block is data, which CSP
+#   doesn't apply to. Inline styles are allowed because the build inlines
+#   the CSS.
+# - X-Frame-Options: legacy equivalent of frame-ancestors 'none'.
+# - HSTS: HTTPS only for a year; without includeSubDomains or preload, so it
+#   stays easy to back out of.
+/*
+  Content-Security-Policy: default-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  X-Frame-Options: DENY
+  Strict-Transport-Security: max-age=31536000
+  Cross-Origin-Opener-Policy: same-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=()
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+
 # Astro's build output: file names carry a content hash, so they never change
 # in place and can be cached for a year.
 /_astro/*
