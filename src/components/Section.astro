@@ -1,12 +1,13 @@
 ---
 interface Props {
 	title: string;
+	printOnly?: boolean; // hidden on screen, shown when printed
 }
 
-const { title } = Astro.props;
+const { title, printOnly = false } = Astro.props;
 ---
 
-<section>
+<section class:list={{ 'print-only': printOnly }}>
 	<h2>{title}</h2>
 	<slot />
 </section>

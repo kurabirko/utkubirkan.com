@@ -12,3 +12,10 @@
 .muted {
 	color: var(--muted);
 }
+
+/* Kept for the printed CV; on screen the skills are named in the bullets. */
+@media not print {
+	.print-only {
+		display: none;
+	}
+}

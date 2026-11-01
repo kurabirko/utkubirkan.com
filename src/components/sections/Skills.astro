@@ -5,7 +5,7 @@ import Section from '../Section.astro';
 const groups = (await getCollection('skills')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Section title="Technical Skills">
+<Section title="Technical Skills" printOnly>
 	<dl>
 		{
 			groups.map(({ data }) => (

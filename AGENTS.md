@@ -32,7 +32,7 @@ All CV content lives in content collections defined in `src/content.config.ts`; 
 | `experience` | `src/content/experience/*.md` | One file per role; bullets are the Markdown body |
 | `education` | `src/content/education/*.md` | `honors`/`gpa` render beside the degree title |
 | `publications` | `src/content/publications.yaml` | |
-| `skills` | `src/content/skills.yaml` | Groups sorted by `order` |
+| `skills` | `src/content/skills.yaml` | Groups sorted by `order`. Print only: hidden on screen (`printOnly` on `Section`), where every skill must instead appear in an experience or education bullet |
 
 - Dates are `YYYY-MM` strings, formatted by `src/lib/date.ts` ("Sep 2022"). Omit `end` for a current role ("Present").
 - Entries are sorted newest first in the section components.
