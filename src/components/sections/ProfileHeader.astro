@@ -7,20 +7,22 @@ const { name, title, location, summary, links } = profile.data;
 ---
 
 <header>
-	<p class="kicker small-caps rubric">{title}</p>
-	<h1>{name}</h1>
-	<p class="location muted">{location}</p>
-	{summary && <p class="summary">{summary}</p>}
-	<nav>
-		{
-			links.map((link, i) => (
-				<>
-					{i > 0 && <span class="divider" aria-hidden="true">·</span>}
-					<a href={link.href}>{link.label}</a>
-				</>
-			))
-		}
-	</nav>
+	<div class="hero">
+		<p class="kicker small-caps rubric">{title}</p>
+		<h1>{name}</h1>
+		<p class="location muted">{location}</p>
+		{summary && <p class="summary">{summary}</p>}
+		<nav>
+			{
+				links.map((link, i) => (
+					<>
+						{i > 0 && <span class="divider" aria-hidden="true">·</span>}
+						<a href={link.href}>{link.label}</a>
+					</>
+				))
+			}
+		</nav>
+	</div>
 </header>
 
 <style>
@@ -92,6 +94,97 @@ const { name, title, location, summary, links } = profile.data;
 			}
 			nav {
 				font-size: 1.2rem;
+			}
+		}
+
+		/* Progressive enhancement: where scroll-driven animations are supported
+		   (and motion is welcome), the hero stays in place while the content
+		   scrolls up towards it, shrinking and drawing its lines together. The
+		   header keeps a fixed height and the .hero inside it is sticky, so it
+		   is released, and scrolls away with the page, exactly when the first
+		   section reaches it (at the normal section spacing). Elsewhere the
+		   static hero above is used as is. */
+		@supports (animation-timeline: scroll()) {
+			@media screen and (prefers-reduced-motion: no-preference) {
+				header {
+					--hero-h: min(66svh, 40rem);
+					--name-compact: 3.5rem;
+					/* Via a custom property so the minifier keeps animation-timeline
+					   as its own declaration instead of folding it into the
+					   animation shorthand, which doesn't accept it everywhere. */
+					--timeline: scroll(root);
+					/* Finish shrinking before the first section arrives. */
+					--range: 0 calc(var(--hero-h) * 0.3);
+
+					display: block;
+					min-height: 0;
+					height: var(--hero-h);
+					padding-block: 0;
+				}
+				/* Pinned where it sits in the static layout: main's top padding plus
+				   a share of the hero height. */
+				.hero {
+					position: sticky;
+					top: calc(var(--space-xl-2xl) + var(--hero-h) * 0.35);
+				}
+				.kicker,
+				h1,
+				.location,
+				.summary,
+				nav {
+					/* Longhands: a nameless shorthand gets minified to animation: none. */
+					animation-timing-function: linear;
+					animation-fill-mode: both;
+					animation-timeline: var(--timeline);
+					animation-range: var(--range);
+				}
+				.kicker {
+					animation-name: hero-kicker;
+				}
+				h1 {
+					animation-name: hero-name;
+				}
+				.location,
+				.summary {
+					animation-name: hero-line;
+				}
+				nav {
+					animation-name: hero-nav;
+				}
+				@keyframes hero-kicker {
+					to {
+						font-size: 1.1rem;
+					}
+				}
+				@keyframes hero-name {
+					to {
+						margin-top: var(--space-xs);
+						font-size: var(--name-compact);
+					}
+				}
+				@keyframes hero-line {
+					to {
+						margin-top: var(--space-xs);
+						font-size: 1.2rem;
+					}
+				}
+				@keyframes hero-nav {
+					to {
+						margin-top: var(--space-s);
+						font-size: 1.1rem;
+					}
+				}
+				@media (max-width: 48rem) {
+					header {
+						--name-compact: 3rem;
+					}
+				}
+				@media (max-width: 32rem) {
+					header {
+						--hero-h: min(60svh, 30rem);
+						--name-compact: 2.25rem;
+					}
+				}
 			}
 		}
 	}
