@@ -1,25 +1,23 @@
 ---
 interface Props {
 	heading: string;
-	headingNote?: string; // shown beside the heading in lighter text, e.g. honors
 	subheading: string;
+	subheadingNote?: string; // second line under the subheading, same style, e.g. honors
 	dates: string;
 	location?: string;
 }
 
-const { heading, headingNote, subheading, dates, location } = Astro.props;
+const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 ---
 
 <article>
-	<h3>
-		{heading}
-		{headingNote && <span class="note">{headingNote}</span>}
-	</h3>
-	<p class="sub muted">{subheading}</p>
-	<p class="meta">
-		<span class="dates small-caps rubric">{dates}</span>
-		{location && <span class="location muted">{location}</span>}
+	<h3>{heading}</h3>
+	<p class="sub muted">
+		{subheading}
+		{subheadingNote && <span class="note">{subheadingNote}</span>}
 	</p>
+	<p class="dates small-caps rubric">{dates}</p>
+	{location && <p class="location muted">{location}</p>}
 	<div class="body">
 		<slot />
 	</div>
@@ -27,15 +25,19 @@ const { heading, headingNote, subheading, dates, location } = Astro.props;
 
 <style>
 	@layer components {
-		/* Narrow layout: everything in one column, dates and location on one line. */
+		/* Narrow layout: title, then the institution (plus any note as a second
+		   line of the same paragraph), then dates and location sharing one line.
+		   Rows align on baselines so mixed font sizes still sit on one line. */
 		article {
 			display: grid;
-			grid-template-columns: minmax(0, 1fr);
+			grid-template-columns: minmax(0, 1fr) auto;
 			grid-template-areas:
-				'title'
-				'sub'
-				'meta'
-				'body';
+				'title title'
+				'sub sub'
+				'dates location'
+				'body body';
+			align-items: baseline;
+			column-gap: var(--space-s);
 		}
 		article + article {
 			margin-top: var(--space-xl);
@@ -44,30 +46,29 @@ const { heading, headingNote, subheading, dates, location } = Astro.props;
 			grid-area: title;
 			font-size: 1.45rem;
 		}
+		/* A second line in the same style, spaced by the paragraph's own line
+		   height, so institution and note read as one block. */
 		.note {
 			display: block;
-			margin-top: var(--space-2xs);
-			font-family: var(--font-body);
-			font-size: 1.05rem;
-			font-style: italic;
-			color: var(--muted);
-			text-box: trim-both cap alphabetic;
 		}
 		.sub {
 			grid-area: sub;
 			margin-top: var(--space-xs);
+			/* Tighter leading so the gap between its lines (line height minus
+			   cap height, ~0.65em) matches the title-to-institution gap. */
+			line-height: 1.3;
 		}
-		.meta {
-			grid-area: meta;
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-			gap: var(--space-2xs) var(--space-s);
-			margin-top: var(--space-xs);
+		.dates,
+		.location {
+			margin-top: var(--space-s);
 			font-size: 1.05rem;
 		}
-		.meta > * {
-			text-box: trim-both cap alphabetic;
+		.dates {
+			grid-area: dates;
+		}
+		.location {
+			grid-area: location;
+			text-align: right;
 		}
 		.body {
 			grid-area: body;
@@ -93,33 +94,31 @@ const { heading, headingNote, subheading, dates, location } = Astro.props;
 			box-decoration-break: clone;
 		}
 
-		/* Wide layout: dates and location hang in the left margin, right-aligned
-		   against the heading, so the text column stays centred. Needs room for
-		   the margin on both sides: measure + 2 × (margin + gutter + side). */
-		@media (min-width: 70rem) {
+		/* Wide layout: the grid reaches left into the page margin, so dates and
+		   location sit in a margin column beside the text, which stays centred.
+		   The dates share the title's row and the location shares the
+		   institution's, so baseline alignment puts each pair on one baseline.
+		   Needs room for the margin on both sides:
+		   measure + 2 × (margin + gutter + side). */
+		@media (min-width: 74rem) {
 			article {
-				position: relative;
+				grid-template-columns: var(--margin) minmax(0, 1fr);
 				grid-template-areas:
-					'title'
-					'sub'
-					'body';
+					'dates title'
+					'location sub'
+					'. body';
+				column-gap: var(--gutter);
+				margin-left: calc(-1 * (var(--margin) + var(--gutter)));
 			}
-			.note {
-				display: inline;
-				margin: 0 0 0 0.35em;
-			}
-			.meta {
-				position: absolute;
-				top: 0;
-				right: calc(100% + var(--gutter));
-				width: var(--margin);
-				flex-direction: column;
-				align-items: flex-end;
-				gap: var(--space-xs);
-				margin-top: 0;
+			.dates,
+			.location {
 				text-align: right;
-				/* Line the date's cap height up with the heading's. */
-				padding-top: 0.35rem;
+			}
+			.dates {
+				margin-top: 0;
+			}
+			.location {
+				margin-top: var(--space-xs);
 			}
 		}
 	}

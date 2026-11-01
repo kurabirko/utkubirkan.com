@@ -13,7 +13,7 @@
 	--font-body: var(--font-eb-garamond);
 
 	/* Book layout: a centred text column, with notes hanging in the margin. */
-	--measure: 36rem;
+	--measure: 40rem;
 	--gutter: var(--space-l-xl);
 	--margin: 12rem;
 	--side: var(--space-s);

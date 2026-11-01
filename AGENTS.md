@@ -30,7 +30,7 @@ All CV content lives in content collections defined in `src/content.config.ts`; 
 |---|---|---|
 | `profile` | `src/content/profile.yaml` | Single entry with id `main`: name, title, location, links, `citationName` (bolded in publications) |
 | `experience` | `src/content/experience/*.md` | One file per role; bullets are the Markdown body |
-| `education` | `src/content/education/*.md` | `honors`/`gpa` render beside the degree title |
+| `education` | `src/content/education/*.md` | `honors`/`gpa` render as a second line under the institution, in the same style |
 | `publications` | `src/content/publications.yaml` | |
 | `skills` | `src/content/skills.yaml` | Groups sorted by `order`. Print only: hidden on screen (`printOnly` on `Section`), where every skill must instead appear in an experience or education bullet |
 
@@ -62,7 +62,7 @@ The design is a printed book, after [flora.alpacasoft.dev](https://flora.alpacas
 - Spacing comes from the Utopia fluid space scale in `src/styles/fluid.css` (320px → 1240px, 16px → 18px base): `--space-*` and pairs like `--space-s-m` for margins, gaps and padding. Don't hard-code `rem`/`px` spacing; regenerate the file with the calculator link in its header if the scale changes. Font sizes are fixed `rem` values — a fluid type scale was tried and rejected. Use `em` only for values that belong to the text itself (letter-spacing, list indents, gaps between list items).
 - Colors are oklch tokens in `tokens.css` (`--paper`, `--ink`, `--muted`, `--rubric`, `--rule`, `--tint`), redefined under `prefers-color-scheme: dark`. Use tokens, never raw colors, and check both themes after visual changes.
 - Fonts are self-hosted through Astro's fonts API (`fonts` in `astro.config.mjs`, `<Font />` in `BaseLayout`) and used via `--font-body`. EB Garamond includes `latin-ext` for Turkish letters. Restart the dev server after changing the fonts config.
-- Book layout: `main` is the `--measure` text column, centred — never add columns that push it off-centre. From `min-width: 70rem`, `TimelineItem` hangs dates and location in the left margin (absolutely positioned, `--margin` wide, `--gutter` from the text, right-aligned against the heading); below that they join the text flow. The breakpoint must leave room for `--margin + --gutter` left of the column.
+- Book layout: `main` is the `--measure` text column, centred — never add columns that push it off-centre. From `min-width: 74rem`, `TimelineItem`'s grid reaches left into the page margin (negative margin) so dates and location get a `--margin`-wide column `--gutter` from the text; below that they share one line under the institution. Rows use `align-items: baseline`: dates share the title's row and location the institution's, so their baselines match exactly — keep them in the same grid rows rather than positioning them by offset. The breakpoint must leave room for `--margin + --gutter` left of the column.
 - Must work on phones down to 320px with no horizontal scroll. The mobile breakpoint is `max-width: 32rem`: headings shrink and skills collapse to one column. Check narrow widths after layout changes.
 
 ## Git

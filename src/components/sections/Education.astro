@@ -14,13 +14,13 @@ const degrees = (await getCollection('education')).sort((a, b) =>
 		degrees.map(async (degree) => {
 			const { Content } = await render(degree);
 			const { school, honors, gpa, project } = degree.data;
-			const distinction = [honors && `with ${honors}`, gpa && `${gpa} GPA`]
+			const distinction = [honors, gpa && `${gpa} GPA`]
 				.filter(Boolean)
 				.join(', ');
 			return (
 				<TimelineItem
 					heading={degree.data.degree}
-					headingNote={distinction || undefined}
+					subheadingNote={distinction || undefined}
 					subheading={school}
 					location={degree.data.location}
 					dates={formatRange(degree.data.start, degree.data.end)}
