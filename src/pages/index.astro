@@ -11,7 +11,7 @@ import Skills from '../components/sections/Skills.astro';
 
 const profile = (await getEntry('profile', 'main'))!.data;
 
-const title = `${profile.name} · ${profile.title}`;
+const title = profile.name;
 const description =
 	profile.summary ?? `${profile.name}, ${profile.title} based in ${profile.location}. Curriculum vitae.`;
 
