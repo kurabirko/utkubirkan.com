@@ -12,7 +12,14 @@ const { name, title, location, summary, links } = profile.data;
 	<p class="location muted">{location}</p>
 	{summary && <p class="summary">{summary}</p>}
 	<nav>
-		{links.map((link) => <a href={link.href}>{link.label}</a>)}
+		{
+			links.map((link, i) => (
+				<>
+					{i > 0 && <span class="divider" aria-hidden="true">·</span>}
+					<a href={link.href}>{link.label}</a>
+				</>
+			))
+		}
 	</nav>
 </header>
 
@@ -49,12 +56,20 @@ const { name, title, location, summary, links } = profile.data;
 		nav {
 			display: flex;
 			flex-wrap: wrap;
-			gap: var(--space-xs) var(--space-l);
+			align-items: baseline;
+			gap: var(--space-xs) var(--space-s);
 			margin-top: var(--space-l);
 			font-size: 1.3rem;
 		}
-		nav a {
+		nav > * {
 			text-box: trim-both cap alphabetic;
+		}
+		/* A middle dot, a touch heavier and larger than the text so it reads at
+		   this size without becoming a full bullet. */
+		.divider {
+			color: var(--muted);
+			font-weight: 600;
+			font-size: 1.15em;
 		}
 		@media (max-width: 48rem) {
 			h1 {
