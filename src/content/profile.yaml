@@ -2,6 +2,9 @@ main:
   name: Utku Birkan
   title: Software Engineer
   location: Ankara, Turkey
+  address:
+    - Meşrutiyet Zafir İş Merkezi No:4 Kapı No:91
+    - 06420 Çankaya / Ankara / Türkiye
   citationName: Birkan, U.
   links:
     - label: utku.birkan@gmail.com
