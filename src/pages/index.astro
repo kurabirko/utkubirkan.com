@@ -37,8 +37,11 @@ const jsonLd = {
 			@layer reset, tokens, base, components, utilities;
 		</style>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- The .ico declares its size so browsers that support SVG favicons
+		     pick the SVG. -->
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<Seo title={title} description={description} jsonLd={jsonLd} />
 		<Font cssVariable="--font-eb-garamond" preload />
