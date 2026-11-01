@@ -8,7 +8,7 @@ const { title, printOnly = false } = Astro.props;
 ---
 
 <section class:list={{ 'print-only': printOnly }}>
-	<h2>{title}</h2>
+	<h2><span>{title}</span></h2>
 	<slot />
 </section>
 
@@ -17,18 +17,33 @@ const { title, printOnly = false } = Astro.props;
 		section {
 			margin-top: var(--space-2xl-3xl);
 		}
+		/* A quiet small-caps label, like the hero's title kicker, so the entry
+		   titles below carry the visual weight. */
 		h2 {
-			font-size: 2.2rem;
-			/* The heading is trimmed to its baseline, so this padding is the
-			   visible gap between the letters and the rule. */
-			padding-bottom: var(--space-s);
-			border-bottom: 1px solid var(--rubric);
-			margin-bottom: var(--space-l-xl);
+			font-size: 1.2rem;
+			font-weight: 500;
+			font-variant-caps: all-small-caps;
+			font-variant-numeric: lining-nums;
+			letter-spacing: 0.1em;
+			color: var(--rubric);
+			margin-bottom: var(--space-l);
+			/* A hairline runs from the label to the column edge on its baseline,
+			   marking the start of the section without underlining the label.
+			   The label is trimmed to its baseline, so aligning to the end of
+			   the row puts the line exactly on it. */
+			display: flex;
+			align-items: end;
+			gap: var(--space-s);
 		}
-		@media (max-width: 32rem) {
-			h2 {
-				font-size: 1.9rem;
-			}
+		/* Flex items carry their own trim; the heading's own trim doesn't reach
+		   an anonymous flex item, so the label sits in a span. */
+		h2 > span {
+			text-box: trim-both cap alphabetic;
+		}
+		h2::after {
+			content: '';
+			flex: 1;
+			border-top: 1px solid var(--rule);
 		}
 	}
 </style>

@@ -9,7 +9,7 @@ export default defineConfig({
 			provider: fontProviders.google(),
 			name: 'EB Garamond',
 			cssVariable: '--font-eb-garamond',
-			weights: [400, 600],
+			weights: [400, 500, 600],
 			styles: ['normal', 'italic'],
 			// latin-ext covers Turkish letters (ı, İ, ğ, ş) in names and institutions
 			subsets: ['latin', 'latin-ext'],
