@@ -40,7 +40,7 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 			column-gap: var(--space-s);
 		}
 		article + article {
-			margin-top: var(--space-xl);
+			margin-block-start: var(--space-xl);
 		}
 		h3 {
 			grid-area: title;
@@ -54,14 +54,14 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 		}
 		.sub {
 			grid-area: sub;
-			margin-top: var(--space-xs);
+			margin-block-start: var(--space-xs);
 			/* Tighter leading so the gap between its lines (line height minus
 			   cap height, ~0.65em) matches the title-to-institution gap. */
 			line-height: 1.3;
 		}
 		.dates,
 		.location {
-			margin-top: var(--space-s);
+			margin-block-start: var(--space-s);
 			font-size: 1.05rem;
 		}
 		.dates {
@@ -69,23 +69,24 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 		}
 		.location {
 			grid-area: location;
-			text-align: right;
+			text-align: end;
 		}
 		.body {
 			grid-area: body;
-			margin-top: var(--space-m);
+			margin-block-start: var(--space-m);
 		}
 		/* Visible gap between items must exceed the ~0.9em gap between lines
 		   (1.55 line height minus cap height) or items blur together. */
 		.body :global(li + li) {
-			margin-top: 1.1em;
+			margin-block-start: 1.1em;
 		}
 		/* Technologies are marked as <strong> in the content; show them as a
 		   tinted highlight instead of bold. */
 		.body :global(strong) {
 			font-weight: inherit;
 			background-color: var(--tint);
-			padding: 0.05em 0.2em;
+			padding-block: 0.05em;
+			padding-inline: 0.2em;
 			/* Most of the side padding hangs into the surrounding space, so
 			   punctuation still sits close to the word. */
 			margin-inline: -0.12em;
@@ -126,17 +127,17 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 					'location sub'
 					'. body';
 				column-gap: var(--gutter);
-				margin-left: calc(-1 * (var(--margin) + var(--gutter)));
+				margin-inline-start: calc(-1 * (var(--margin) + var(--gutter)));
 			}
 			.dates,
 			.location {
-				text-align: right;
+				text-align: end;
 			}
 			.dates {
-				margin-top: 0;
+				margin-block-start: 0;
 			}
 			.location {
-				margin-top: var(--space-xs);
+				margin-block-start: var(--space-xs);
 			}
 		}
 	}

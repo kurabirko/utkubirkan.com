@@ -38,7 +38,7 @@ strong {
 
 /* En dashes, the typeset list marker; muted so they recede behind the text. */
 ul {
-	padding-left: 1.2em;
+	padding-inline-start: 1.2em;
 	list-style-type: '–\00a0\00a0';
 }
 

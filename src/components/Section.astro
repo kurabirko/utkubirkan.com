@@ -15,7 +15,7 @@ const { title, printOnly = false } = Astro.props;
 <style>
 	@layer components {
 		section {
-			margin-top: var(--space-2xl-3xl);
+			margin-block-start: var(--space-2xl-3xl);
 		}
 		/* A quiet small-caps label, like the hero's title kicker, so the entry
 		   titles below carry the visual weight. */
@@ -26,7 +26,7 @@ const { title, printOnly = false } = Astro.props;
 			font-variant-numeric: lining-nums;
 			letter-spacing: 0.1em;
 			color: var(--rubric);
-			margin-bottom: var(--space-l);
+			margin-block-end: var(--space-l);
 			/* A hairline runs from the label to the column edge on its baseline,
 			   marking the start of the section without underlining the label.
 			   The label is trimmed to its baseline, so aligning to the end of
@@ -44,7 +44,7 @@ const { title, printOnly = false } = Astro.props;
 			content: '';
 			flex: 1;
 			/* The rubric at reduced strength: red in hue, but quieter than the label. */
-			border-top: 1px solid color-mix(in oklch, var(--rubric) 35%, transparent);
+			border-block-start: 1px solid color-mix(in oklch, var(--rubric) 35%, transparent);
 		}
 	}
 </style>
