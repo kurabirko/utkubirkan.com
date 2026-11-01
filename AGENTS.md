@@ -41,7 +41,7 @@ All CV content lives in content collections defined in `src/content.config.ts`; 
 ### Writing CV bullets
 
 - Focus on the technologies used and the impact. Don't name client-internal projects, services or systems.
-- Mark each technology with `**…**` on its first mention within an entry. In entry bullets this renders as a neutral gray highlight (`--tint`), not bold; it stays bold elsewhere (e.g. your name in publications).
+- Mark each technology with `**…**` on its first mention within an entry. In entry bullets this renders as a neutral gray highlight (`--tint`), not bold, and only while the entry is hovered or focused (always on touch screens, which can't hover); it stays bold elsewhere (e.g. your name in publications).
 - Only include numbers that are impressive (e.g. "70% reduction", "over 50,000 lines"); drop plain counts like "five services".
 - Describe only shipped work, not unmerged branches.
 - Keep the current role concise; it's newer, so fewer bullets than past roles.

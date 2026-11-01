@@ -84,7 +84,7 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 		   tinted highlight instead of bold. */
 		.body :global(strong) {
 			font-weight: inherit;
-			background: var(--tint);
+			background-color: var(--tint);
 			padding: 0.05em 0.2em;
 			/* Most of the side padding hangs into the surrounding space, so
 			   punctuation still sits close to the word. */
@@ -93,6 +93,23 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 			/* Keep padding and corners on every line when a keyword wraps. */
 			-webkit-box-decoration-break: clone;
 			box-decoration-break: clone;
+		}
+		/* Where the pointer can hover, the highlights appear only while the
+		   entry (including its margin dates) is hovered or has keyboard focus.
+		   Touch screens can't hover, so they keep the highlights visible. */
+		@media (hover: hover) {
+			.body :global(strong) {
+				background-color: transparent;
+			}
+			article:hover .body :global(strong),
+			article:focus-within .body :global(strong) {
+				background-color: var(--tint);
+			}
+		}
+		@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+			.body :global(strong) {
+				transition: background-color 0.2s ease;
+			}
 		}
 
 		/* Wide layout: the grid reaches left into the page margin, so dates and
