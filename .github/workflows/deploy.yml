@@ -32,7 +32,19 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      # Chrome for printing the CV to PDF, installed explicitly rather than
+      # relying on whatever the runner image ships.
+      - uses: browser-actions/setup-chrome@v1
+        id: chrome
+        with:
+          chrome-version: stable
+
+      # Also prints the CV to dist/utku-birkan-cv.pdf; REQUIRE_PDF makes a
+      # missing Chrome or a failed print fail the build.
       - run: bun run build
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+          REQUIRE_PDF: '1'
 
       # Cloudflare Pages treats the project's production branch (main) as
       # production and any other branch name as a preview, under an alias

@@ -7,7 +7,7 @@ Utku Birkan's personal website: a static, single-page CV built with Astro. The g
 Bun only — Node is not a supported runtime (`engines` lists only `bun`). The scripts run Astro on Bun via `bunx --bun astro …`; always go through them or `bunx --bun`, never plain `npx`/`node`.
 
 - `bun install` — install dependencies
-- `bun run build` — production build to `dist/`; run it to verify changes
+- `bun run build` — production build to `dist/`; run it to verify changes. After Astro it runs `scripts/build-pdf.ts`, which prints the CV to `dist/utku-birkan-cv.pdf` with headless Chrome (A4, the site's own print styles). Without Chrome it skips the PDF with a warning; CI installs Chrome with `browser-actions/setup-chrome`, passes it as `CHROME_PATH` and sets `REQUIRE_PDF=1`, so a missing PDF fails the deploy. `bun run build:pdf` reruns just that step.
 - `bun run preview` — serve the build locally
 
 ## Development
