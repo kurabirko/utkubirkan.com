@@ -41,7 +41,7 @@ All CV content lives in content collections defined in `src/content.config.ts`; 
 ### Writing CV bullets
 
 - Focus on the technologies used and the impact. Don't name client-internal projects, services or systems.
-- Bold each technology with `**…**` on its first mention within an entry, matching the PDF CV.
+- Mark each technology with `**…**` on its first mention within an entry. In entry bullets this renders as a neutral gray highlight (`--tint`), not bold; it stays bold elsewhere (e.g. your name in publications).
 - Only include numbers that are impressive (e.g. "70% reduction", "over 50,000 lines"); drop plain counts like "five services".
 - Describe only shipped work, not unmerged branches.
 - Keep the current role concise; it's newer, so fewer bullets than past roles.
@@ -60,7 +60,7 @@ The design is a printed book, after [flora.alpacasoft.dev](https://flora.alpacas
 - `src/styles/reset.css` is Josh Comeau's reset verbatim — keep it as published, even though a few of its lines aren't Baseline; they're all progressive enhancements. It zeroes all margins, so don't re-add `margin: 0`.
 - Text blocks use `text-box: trim-both cap alphabetic` (set in `base.css` for headings, `p`, `li`, `dt`, `dd`; components add it to their own grid/flex text items). Margins and gaps therefore measure the visible space between letterforms — set them by eye, and keep the gap between list items larger than the ~0.9em gap between lines.
 - Spacing comes from the Utopia fluid space scale in `src/styles/fluid.css` (320px → 1240px, 16px → 18px base): `--space-*` and pairs like `--space-s-m` for margins, gaps and padding. Don't hard-code `rem`/`px` spacing; regenerate the file with the calculator link in its header if the scale changes. Font sizes are fixed `rem` values — a fluid type scale was tried and rejected. Use `em` only for values that belong to the text itself (letter-spacing, list indents, gaps between list items).
-- Colors are oklch tokens in `tokens.css` (`--paper`, `--ink`, `--muted`, `--rubric`, `--rule`), redefined under `prefers-color-scheme: dark`. Use tokens, never raw colors, and check both themes after visual changes.
+- Colors are oklch tokens in `tokens.css` (`--paper`, `--ink`, `--muted`, `--rubric`, `--rule`, `--tint`), redefined under `prefers-color-scheme: dark`. Use tokens, never raw colors, and check both themes after visual changes.
 - Fonts are self-hosted through Astro's fonts API (`fonts` in `astro.config.mjs`, `<Font />` in `BaseLayout`) and used via `--font-body`. EB Garamond includes `latin-ext` for Turkish letters. Restart the dev server after changing the fonts config.
 - Book layout: `main` is the `--measure` text column, centred — never add columns that push it off-centre. From `min-width: 70rem`, `TimelineItem` hangs dates and location in the left margin (absolutely positioned, `--margin` wide, `--gutter` from the text, right-aligned against the heading); below that they join the text flow. The breakpoint must leave room for `--margin + --gutter` left of the column.
 - Must work on phones down to 320px with no horizontal scroll. The mobile breakpoint is `max-width: 32rem`: headings shrink and skills collapse to one column. Check narrow widths after layout changes.

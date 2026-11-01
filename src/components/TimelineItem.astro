@@ -78,6 +78,20 @@ const { heading, headingNote, subheading, dates, location } = Astro.props;
 		.body :global(li + li) {
 			margin-top: 1.1em;
 		}
+		/* Technologies are marked as <strong> in the content; show them as a
+		   tinted highlight instead of bold. */
+		.body :global(strong) {
+			font-weight: inherit;
+			background: var(--tint);
+			padding: 0.05em 0.2em;
+			/* Most of the side padding hangs into the surrounding space, so
+			   punctuation still sits close to the word. */
+			margin-inline: -0.12em;
+			border-radius: 2px;
+			/* Keep padding and corners on every line when a keyword wraps. */
+			-webkit-box-decoration-break: clone;
+			box-decoration-break: clone;
+		}
 
 		/* Wide layout: dates and location hang in the left margin, right-aligned
 		   against the heading, so the text column stays centred. Needs room for
