@@ -44,7 +44,9 @@ const jsonLd = {
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<Seo title={title} description={description} jsonLd={jsonLd} />
-		<Font cssVariable="--font-eb-garamond" preload />
+		<!-- Preload only the Latin file, which sets the name (the largest
+		     contentful paint); latin-ext is fetched when its letters appear. -->
+		<Font cssVariable="--font-eb-garamond" preload={[{ subset: 'latin', style: 'normal' }]} />
 	</head>
 	<body>
 		<main>
