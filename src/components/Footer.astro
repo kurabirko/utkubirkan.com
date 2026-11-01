@@ -44,9 +44,14 @@ const years = year > 2025 ? `2025–${year}` : '2025';
 			font-weight: 600;
 			font-size: 1.15em;
 		}
+		@media print {
+			footer {
+				display: none;
+			}
+		}
 		/* Too narrow for one line: the copyright gets its own line rather than
 		   leaving a dot hanging at the end of the first. */
-		@media (max-width: 32rem) {
+		@media screen and (max-width: 32rem) {
 			.copyright {
 				flex-basis: 100%;
 				text-align: center;
