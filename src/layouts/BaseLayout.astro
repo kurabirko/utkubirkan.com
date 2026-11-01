@@ -13,6 +13,12 @@ const { title, description } = Astro.props;
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
+		<!-- Cascade layer order, before any stylesheet. Layers are ordered by
+		     first appearance, and component styles can be injected ahead of
+		     global.css, so the order can't depend on import order. -->
+		<style is:inline>
+			@layer reset, tokens, base, components, utilities;
+		</style>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />

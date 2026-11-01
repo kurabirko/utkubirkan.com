@@ -53,7 +53,7 @@ The design is a printed book, after [flora.alpacasoft.dev](https://flora.alpacas
 
 - Use Baseline CSS features (check MDN's Baseline banner; it can be more current than other trackers). Non-Baseline features are fine as progressive enhancements: the page must still look correct and work in browsers that ignore them (e.g. `text-wrap: pretty`). Never depend on a non-Baseline feature for layout or content.
 - Plain scoped `<style>` in components plus the files in `src/styles/`; no CSS framework.
-- Everything is in a cascade layer, declared in `src/styles/global.css` (the only stylesheet `BaseLayout` imports): `@layer reset, tokens, base, components, utilities;` — later layers win regardless of specificity.
+- Everything is in a cascade layer: `@layer reset, tokens, base, components, utilities;` — later layers win regardless of specificity. The order statement is inlined at the top of `<head>` in `BaseLayout` (and repeated in `src/styles/global.css`, the only stylesheet `BaseLayout` imports); keep the two identical. It must come before any stylesheet: layers are ordered by first appearance, and in dev Astro injects component styles in import order, so without it a component imported before `global.css` silently made `components` the weakest layer.
   - `reset`: `reset.css`. `tokens`: `tokens.css` (colors, fonts, measure) and `fluid.css` (space scale). `base`: `base.css` (element defaults). `utilities`: `utilities.css` (`.small-caps`, `.rubric`, `.muted`).
   - Every component wraps its `<style>` contents in `@layer components { … }`. Never leave styles unlayered — unlayered rules beat every layer.
   - New global files get imported into the right layer from `global.css` with `@import './file.css' layer(name);`.
