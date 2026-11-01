@@ -35,6 +35,8 @@ const { name, title, location, links } = profile.data;
 			--name-size: 7;
 			--line-size: 1.6;
 			--nav-size: 1.3;
+			/* Lines the links take: 2 on phones, where the email has its own. */
+			--nav-rows: 1;
 			/* The viewport less main's top padding, the section spacing, the
 			   label (1.2rem trimmed to EB Garamond's 0.65em cap height) and a
 			   gap under it, smaller than the label's own space-l gap to the
@@ -83,11 +85,15 @@ const { name, title, location, links } = profile.data;
 			text-box: trim-both cap alphabetic;
 		}
 		/* A middle dot, a touch heavier and larger than the text so it reads at
-		   this size without becoming a full bullet. */
+		   this size without becoming a full bullet. Enlarged with scale, from
+		   the baseline, rather than font-size: 1.15em, which Safari resolves
+		   against the wrong size while the nav's font-size animates; scale
+		   also leaves the nav's height at the links' cap height. */
 		.divider {
 			color: var(--muted);
 			font-weight: 600;
-			font-size: 1.15em;
+			scale: 1.15;
+			transform-origin: center bottom;
 		}
 		@media (max-width: 48rem) {
 			header {
@@ -100,6 +106,16 @@ const { name, title, location, links } = profile.data;
 				--name-size: 3.25;
 				--line-size: 1.3;
 				--nav-size: 1.2;
+				--nav-rows: 2;
+			}
+			/* Too narrow for every link on one line: the email takes its own,
+			   rather than leaving a dot hanging at the end of the first, and
+			   the rest follow below. */
+			nav > :first-child {
+				flex-basis: 100%;
+			}
+			nav > .divider:nth-child(2) {
+				display: none;
 			}
 		}
 
@@ -114,19 +130,11 @@ const { name, title, location, links } = profile.data;
 		   is. */
 		@supports (animation-timeline: scroll()) {
 			@media screen and (prefers-reduced-motion: no-preference) {
-				/* Registered so they compute to lengths on the header, where 1cap
-				   is the cap height of 1rem text, and are inherited as lengths. */
-				@property --hero-full-h {
-					syntax: '<length>';
-					inherits: true;
-					initial-value: 0px;
-				}
-				@property --hero-compact-h {
-					syntax: '<length>';
-					inherits: true;
-					initial-value: 0px;
-				}
 				header {
+					/* EB Garamond's cap height, 0.65em, for 1rem text. A constant
+					   rather than 1cap in registered properties: Safari handed
+					   children stale values of those. */
+					--cap: 0.65rem;
 					/* Where the hero ends up, and its compact font sizes in rem. */
 					--inset-end: var(--space-l);
 					--kicker-compact: 0.77;
@@ -134,19 +142,21 @@ const { name, title, location, links } = profile.data;
 					--line-compact: 1.2;
 					--nav-compact: 1.1;
 					/* Heights of the full and compact hero: every line is trimmed to
-					   its cap height (the nav to its 1.15em divider's), plus the
-					   gaps. */
+					   its cap height (the nav's one or two rows apart by its row
+					   gap), plus the gaps between lines. */
 					--hero-full-h: calc(
-						1cap *
+						var(--cap) *
 							(var(--kicker-size) + var(--name-size) + var(--line-size) +
-								var(--nav-size) * 1.15) +
-							var(--space-m) + var(--space-m-l) + var(--space-l)
+								var(--nav-size) * var(--nav-rows)) +
+							var(--space-m) + var(--space-m-l) + var(--space-l) +
+							(var(--nav-rows) - 1) * var(--space-xs)
 					);
 					--hero-compact-h: calc(
-						1cap *
+						var(--cap) *
 							(var(--kicker-compact) + var(--name-compact) + var(--line-compact) +
-								var(--nav-compact) * 1.15) +
-							2 * var(--space-xs) + var(--space-s)
+								var(--nav-compact) * var(--nav-rows)) +
+							2 * var(--space-xs) + var(--space-s) +
+							(var(--nav-rows) - 1) * var(--space-xs)
 					);
 					/* Via a custom property so the minifier keeps animation-timeline
 					   as its own declaration instead of folding it into the
@@ -162,9 +172,6 @@ const { name, title, location, links } = profile.data;
 					min-block-size: 0;
 					block-size: var(--hero-h);
 					padding-block: 0;
-					/* So 1cap above is the cap height of 1rem text; every child sets
-					   its own size. */
-					font-size: 1rem;
 				}
 				/* Pinned centred in the header, as in the static layout, then
 				   drawn up towards the top. */
