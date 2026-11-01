@@ -3,6 +3,8 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
+	// Used for the canonical URL, og:url and the JSON-LD Person url.
+	site: 'https://utkubirkan.com',
 	// Downloaded at build time and served from the site; no requests to Google.
 	fonts: [
 		{
