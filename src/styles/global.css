@@ -6,10 +6,12 @@
   tokens     custom properties: colors, fonts, measure, fluid space scale
   base       element defaults (body, links, headings, lists, text-box trim)
   components scoped component styles; each <style> wraps itself in @layer components
+  utilities  single-purpose helper classes (small caps, rubric, muted)
 */
-@layer reset, tokens, base, components;
+@layer reset, tokens, base, components, utilities;
 
 @import './reset.css' layer(reset);
 @import './tokens.css' layer(tokens);
 @import './fluid.css' layer(tokens);
 @import './base.css' layer(base);
+@import './utilities.css' layer(utilities);

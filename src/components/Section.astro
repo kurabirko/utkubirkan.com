@@ -14,16 +14,20 @@ const { title } = Astro.props;
 <style>
 	@layer components {
 		section {
-			margin-top: var(--space-xl-2xl);
+			margin-top: var(--space-2xl-3xl);
 		}
 		h2 {
-			font-size: 0.8rem;
-			text-transform: uppercase;
-			letter-spacing: 0.1em;
-			color: var(--muted);
-			padding-bottom: var(--space-xs);
-			margin-bottom: var(--space-m-l);
-			border-bottom: 1px solid var(--border);
+			font-size: 2.2rem;
+			/* The heading is trimmed to its baseline, so this padding is the
+			   visible gap between the letters and the rule. */
+			padding-bottom: var(--space-s);
+			border-bottom: 1px solid var(--rubric);
+			margin-bottom: var(--space-l-xl);
+		}
+		@media (max-width: 32rem) {
+			h2 {
+				font-size: 1.9rem;
+			}
 		}
 	}
 </style>

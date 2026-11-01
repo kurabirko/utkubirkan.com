@@ -1,23 +1,49 @@
 body {
-	background: var(--bg);
-	color: var(--text);
-	font-family: var(--font-sans);
-	line-height: 1.6;
+	background: var(--paper);
+	color: var(--ink);
+	font-family: var(--font-body);
+	font-size: 1.2rem;
+	line-height: 1.55;
+	font-variant-numeric: oldstyle-nums proportional-nums;
+	font-kerning: normal;
+	text-rendering: optimizeLegibility;
 }
 
 a {
-	color: var(--accent);
-	text-underline-offset: 0.2em;
+	color: inherit;
+	text-decoration-color: color-mix(in oklch, var(--rubric) 70%, transparent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.18em;
+}
+
+a:hover {
+	color: var(--rubric);
+}
+
+:focus-visible {
+	outline: 2px solid var(--rubric);
+	outline-offset: 2px;
 }
 
 h1,
 h2,
 h3 {
-	line-height: 1.2;
+	font-weight: 400;
+	line-height: 1.12;
 }
 
+strong {
+	font-weight: 600;
+}
+
+/* En dashes, the typeset list marker; muted so they recede behind the text. */
 ul {
 	padding-left: 1.2em;
+	list-style-type: '–\00a0\00a0';
+}
+
+li::marker {
+	color: var(--muted);
 }
 
 /*

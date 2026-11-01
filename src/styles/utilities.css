@@ -1,0 +1,14 @@
+/* Small capitals for labels, dates and kickers. */
+.small-caps {
+	font-variant-caps: all-small-caps;
+	font-variant-numeric: lining-nums tabular-nums;
+	letter-spacing: 0.07em;
+}
+
+.rubric {
+	color: var(--rubric);
+}
+
+.muted {
+	color: var(--muted);
+}

@@ -11,15 +11,15 @@ const { heading, headingNote, subheading, dates, location } = Astro.props;
 ---
 
 <article>
-	<div class="head">
-		<h3>
-			{heading}
-			{headingNote && <span class="note">{headingNote}</span>}
-		</h3>
-		<span class="dates">{dates}</span>
-		<span class="sub">{subheading}</span>
-		{location && <span class="location">{location}</span>}
-	</div>
+	<h3>
+		{heading}
+		{headingNote && <span class="note">{headingNote}</span>}
+	</h3>
+	<p class="sub muted">{subheading}</p>
+	<p class="meta">
+		<span class="dates small-caps rubric">{dates}</span>
+		{location && <span class="location muted">{location}</span>}
+	</p>
 	<div class="body">
 		<slot />
 	</div>
@@ -27,75 +27,85 @@ const { heading, headingNote, subheading, dates, location } = Astro.props;
 
 <style>
 	@layer components {
-		article + article {
-			margin-top: var(--space-l-xl);
-		}
-		.head {
+		/* Narrow layout: everything in one column, dates and location on one line. */
+		article {
 			display: grid;
-			grid-template-columns: 1fr auto;
+			grid-template-columns: minmax(0, 1fr);
 			grid-template-areas:
-				'title dates'
-				'sub location';
-			gap: var(--space-xs) var(--space-s);
+				'title'
+				'sub'
+				'meta'
+				'body';
 		}
-		.head > * {
-			text-box: trim-both cap alphabetic;
+		article + article {
+			margin-top: var(--space-xl);
 		}
 		h3 {
 			grid-area: title;
-			font-size: 1.05rem;
+			font-size: 1.45rem;
 		}
 		.note {
-			margin-left: 0.4em;
-			font-weight: 400;
+			display: block;
+			margin-top: var(--space-2xs);
+			font-family: var(--font-body);
+			font-size: 1.05rem;
 			font-style: italic;
 			color: var(--muted);
-		}
-		.dates {
-			grid-area: dates;
-			font-variant-numeric: tabular-nums;
-			white-space: nowrap;
+			text-box: trim-both cap alphabetic;
 		}
 		.sub {
 			grid-area: sub;
+			margin-top: var(--space-xs);
 		}
-		.location {
-			grid-area: location;
-			text-align: right;
+		.meta {
+			grid-area: meta;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			gap: var(--space-2xs) var(--space-s);
+			margin-top: var(--space-xs);
+			font-size: 1.05rem;
 		}
-		.dates,
-		.sub,
-		.location {
-			color: var(--muted);
+		.meta > * {
+			text-box: trim-both cap alphabetic;
 		}
 		.body {
+			grid-area: body;
 			margin-top: var(--space-m);
 		}
 		/* Visible gap between items must exceed the ~0.9em gap between lines
-		   (1.6 line height minus cap height) or items blur together. */
+		   (1.55 line height minus cap height) or items blur together. */
 		.body :global(li + li) {
 			margin-top: 1.1em;
 		}
 
-		/* On narrow screens the title gets its own full-width line so long titles
-		   don't push the dates around; dates and location share the line below. */
-		@media (max-width: 32rem) {
-			.head {
+		/* Wide layout: dates and location hang in the left margin, right-aligned
+		   against the heading, so the text column stays centred. Needs room for
+		   the margin on both sides: measure + 2 × (margin + gutter + side). */
+		@media (min-width: 70rem) {
+			article {
+				position: relative;
 				grid-template-areas:
-					'title title'
-					'sub sub'
-					'dates location';
-			}
-			.dates,
-			.location {
-				font-size: 0.9rem;
+					'title'
+					'sub'
+					'body';
 			}
 			.note {
-				display: block;
-				margin-left: 0;
-				margin-top: var(--space-2xs);
-				font-size: 0.95rem;
-				text-box: trim-both cap alphabetic;
+				display: inline;
+				margin: 0 0 0 0.35em;
+			}
+			.meta {
+				position: absolute;
+				top: 0;
+				right: calc(100% + var(--gutter));
+				width: var(--margin);
+				flex-direction: column;
+				align-items: flex-end;
+				gap: var(--space-xs);
+				margin-top: 0;
+				text-align: right;
+				/* Line the date's cap height up with the heading's. */
+				padding-top: 0.35rem;
 			}
 		}
 	}

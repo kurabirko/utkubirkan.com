@@ -26,7 +26,9 @@ const groups = (await getCollection('skills')).sort((a, b) => a.data.order - b.d
 			gap: var(--space-s) var(--space-m);
 		}
 		dt {
-			font-weight: 600;
+			color: var(--rubric);
+			font-variant-caps: all-small-caps;
+			letter-spacing: 0.07em;
 		}
 		@media (max-width: 32rem) {
 			dl {
