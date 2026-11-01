@@ -27,14 +27,30 @@ const { name, title, location, summary, links } = profile.data;
 
 <style>
 	@layer components {
-		/* Hero: fills most of the first screen with the name set large, and
-		   steps down at breakpoints (font sizes are fixed, not fluid). */
+		/* Hero: fills the first screen with the name set large, so that the
+		   first section's label sits just above the bottom of the viewport and
+		   nothing below it shows. Font sizes are fixed (not fluid), in rem,
+		   and step down at breakpoints. */
 		header {
-			min-height: min(66svh, 40rem);
+			--kicker-size: 0.98;
+			--name-size: 7;
+			--line-size: 1.6;
+			--nav-size: 1.3;
+			/* The viewport less main's top padding, the section spacing, the
+			   label (1.2rem trimmed to EB Garamond's 0.65em cap height) and a
+			   gap under it, smaller than the label's own space-l gap to the
+			   first entry so that entry stays out of view; at least 20rem on
+			   short landscape screens. */
+			--hero-h: max(
+				20rem,
+				calc(100svb - var(--space-xl-2xl) - var(--space-2xl-3xl) - 0.78rem - var(--space-m))
+			);
+
+			min-block-size: var(--hero-h);
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			padding-block: var(--space-l) var(--space-xl);
+			padding-block: var(--space-l);
 		}
 		/* Small capitals set as capitals at 70%, which is what the browser
 		   synthesises for small-caps anyway (the font has no small-cap glyphs),
@@ -43,31 +59,31 @@ const { name, title, location, summary, links } = profile.data;
 		   the small-caps sizes × 0.7. */
 		.kicker {
 			text-transform: uppercase;
-			font-size: 0.98rem;
+			font-size: calc(var(--kicker-size) * 1rem);
 			letter-spacing: 0.143em;
 		}
 		h1 {
-			margin-top: var(--space-m);
-			font-size: 7rem;
+			margin-block-start: var(--space-m);
+			font-size: calc(var(--name-size) * 1rem);
 			line-height: 0.92;
 			letter-spacing: -0.01em;
 		}
 		.location {
-			margin-top: var(--space-m-l);
-			font-size: 1.6rem;
+			margin-block-start: var(--space-m-l);
+			font-size: calc(var(--line-size) * 1rem);
 		}
 		.summary {
-			margin-top: var(--space-m);
+			margin-block-start: var(--space-m);
 			font-size: 1.5rem;
-			max-width: 32ch;
+			max-inline-size: 32ch;
 		}
 		nav {
 			display: flex;
 			flex-wrap: wrap;
 			align-items: baseline;
 			gap: var(--space-xs) var(--space-s);
-			margin-top: var(--space-l);
-			font-size: 1.3rem;
+			margin-block-start: var(--space-l);
+			font-size: calc(var(--nav-size) * 1rem);
 		}
 		nav > * {
 			text-box: trim-both cap alphabetic;
@@ -80,26 +96,19 @@ const { name, title, location, summary, links } = profile.data;
 			font-size: 1.15em;
 		}
 		@media (max-width: 48rem) {
-			h1 {
-				font-size: 5rem;
+			header {
+				--name-size: 5;
 			}
 		}
 		@media (max-width: 32rem) {
 			header {
-				min-height: min(60svh, 30rem);
+				--kicker-size: 0.805;
+				--name-size: 3.25;
+				--line-size: 1.3;
+				--nav-size: 1.2;
 			}
-			.kicker {
-				font-size: 0.805rem;
-			}
-			h1 {
-				font-size: 3.25rem;
-			}
-			.location,
 			.summary {
 				font-size: 1.3rem;
-			}
-			nav {
-				font-size: 1.2rem;
 			}
 		}
 
@@ -114,23 +123,34 @@ const { name, title, location, summary, links } = profile.data;
 		   is. */
 		@supports (animation-timeline: scroll()) {
 			@media screen and (prefers-reduced-motion: no-preference) {
-				/* Registered so it computes to a length on the header, where 1cap
-				   is the cap height of 1rem text, and is inherited as that length. */
+				/* Registered so they compute to lengths on the header, where 1cap
+				   is the cap height of 1rem text, and are inherited as lengths. */
+				@property --hero-full-h {
+					syntax: '<length>';
+					inherits: true;
+					initial-value: 0px;
+				}
 				@property --hero-compact-h {
 					syntax: '<length>';
 					inherits: true;
 					initial-value: 0px;
 				}
 				header {
-					--hero-h: min(66svh, 40rem);
 					/* Where the hero ends up, and its compact font sizes in rem. */
-					--top-end: var(--space-l);
+					--inset-end: var(--space-l);
 					--kicker-compact: 0.77;
 					--name-compact: 3.5;
 					--line-compact: 1.2;
 					--nav-compact: 1.1;
-					/* Height of the compact hero: every line is trimmed to its cap
-					   height (the nav to its 1.15em divider's), plus the gaps. */
+					/* Heights of the full and compact hero: every line is trimmed to
+					   its cap height (the nav to its 1.15em divider's), plus the
+					   gaps. */
+					--hero-full-h: calc(
+						1cap *
+							(var(--kicker-size) + var(--name-size) + var(--line-size) +
+								var(--nav-size) * 1.15) +
+							var(--space-m) + var(--space-m-l) + var(--space-l)
+					);
 					--hero-compact-h: calc(
 						1cap *
 							(var(--kicker-compact) + var(--name-compact) + var(--line-compact) +
@@ -145,21 +165,21 @@ const { name, title, location, summary, links } = profile.data;
 					   bottom (main's top padding plus its height down the page)
 					   meets the compact hero's bottom. */
 					--range: 0
-						calc(var(--space-xl-2xl) + var(--hero-h) - var(--top-end) - var(--hero-compact-h));
+						calc(var(--space-xl-2xl) + var(--hero-h) - var(--inset-end) - var(--hero-compact-h));
 
 					display: block;
-					min-height: 0;
-					height: var(--hero-h);
+					min-block-size: 0;
+					block-size: var(--hero-h);
 					padding-block: 0;
 					/* So 1cap above is the cap height of 1rem text; every child sets
 					   its own size. */
 					font-size: 1rem;
 				}
-				/* Pinned where it sits in the static layout (main's top padding plus
-				   a share of the hero height), then drawn up towards the top. */
+				/* Pinned centred in the header, as in the static layout, then
+				   drawn up towards the top. */
 				.hero {
 					position: sticky;
-					top: calc(var(--space-xl-2xl) + var(--hero-h) * 0.35);
+					inset-block-start: calc(var(--space-xl-2xl) + (var(--hero-h) - var(--hero-full-h)) / 2);
 					animation-name: hero-top;
 				}
 				.hero,
@@ -174,15 +194,15 @@ const { name, title, location, summary, links } = profile.data;
 					animation-timeline: var(--timeline);
 					animation-range: var(--range);
 				}
-				/* Each gap moves from the next line's margin-top to this line's
-				   padding-bottom, set only by the animation (from --gap to
+				/* Each gap moves from the next line's margin-block-start to this
+				   line's padding-block-end, set only by the animation (from --gap to
 				   --gap-end): Safari leaves a spacing property at its start
 				   value here when a normal rule on the element also sets it. */
 				h1,
 				.location,
 				.summary,
 				nav {
-					margin-top: 0;
+					margin-block-start: 0;
 				}
 				.kicker {
 					--gap: var(--space-m);
@@ -216,33 +236,33 @@ const { name, title, location, summary, links } = profile.data;
 				}
 				@keyframes hero-top {
 					to {
-						top: var(--top-end);
+						inset-block-start: var(--inset-end);
 					}
 				}
 				@keyframes hero-kicker {
 					from {
-						padding-bottom: var(--gap);
+						padding-block-end: var(--gap);
 					}
 					to {
-						padding-bottom: var(--gap-end);
+						padding-block-end: var(--gap-end);
 						font-size: calc(var(--kicker-compact) * 1rem);
 					}
 				}
 				@keyframes hero-name {
 					from {
-						padding-bottom: var(--gap);
+						padding-block-end: var(--gap);
 					}
 					to {
-						padding-bottom: var(--gap-end);
+						padding-block-end: var(--gap-end);
 						font-size: calc(var(--name-compact) * 1rem);
 					}
 				}
 				@keyframes hero-line {
 					from {
-						padding-bottom: var(--gap);
+						padding-block-end: var(--gap);
 					}
 					to {
-						padding-bottom: var(--gap-end);
+						padding-block-end: var(--gap-end);
 						font-size: calc(var(--line-compact) * 1rem);
 					}
 				}
@@ -258,7 +278,6 @@ const { name, title, location, summary, links } = profile.data;
 				}
 				@media (max-width: 32rem) {
 					header {
-						--hero-h: min(60svh, 30rem);
 						--name-compact: 2.25;
 					}
 				}
