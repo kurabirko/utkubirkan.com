@@ -17,6 +17,13 @@
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
 
+# The pages.dev addresses (the project's own and each branch preview) serve
+# the same site as utkubirkan.com; keep them out of search results.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
 # Astro's build output: file names carry a content hash, so they never change
 # in place and can be cached for a year.
 /_astro/*
