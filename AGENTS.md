@@ -77,6 +77,8 @@ Cloudflare Pages project `utkubirkan-com`, deployed by direct upload from `.gith
 - `main` deploys to production at https://utkubirkan.com (`main` is the project's production branch; GitHub environment `production`).
 - Any other branch deploys a dev preview at `https://<branch>.utkubirkan-com.pages.dev`, with the branch name lowercased and other characters turned into hyphens (GitHub environment `dev`). Use a branch to try changes before merging to `main`.
 
+`public/_headers` caches Astro's content-hashed `/_astro/*` files for a year (Pages defaults to 4 hours), and `public/robots.txt` exists because without it Pages answers `/robots.txt` with the home page.
+
 It needs the repository secret `CLOUDFLARE_API_TOKEN` (a token with the Cloudflare Pages: Edit permission) and the repository variable `CLOUDFLARE_ACCOUNT_ID` (not secret).
 
 ## Git
