@@ -1,0 +1,59 @@
+---
+import { getEntry } from 'astro:content';
+
+const profile = (await getEntry('profile', 'main'))!.data;
+// The build year: the site is static, so the range moves on with each deploy.
+const year = new Date().getFullYear();
+const years = year > 2025 ? `2025–${year}` : '2025';
+---
+
+<footer class="muted">
+	<span class="copyright">© {years} {profile.name}</span>
+	<span class="divider first" aria-hidden="true">·</span>
+	<span>Built with <a href="https://astro.build">Astro</a></span>
+	<span class="divider" aria-hidden="true">·</span>
+	<a href="https://github.com/kurabirko/utkubirkan.com">Source code</a>
+</footer>
+
+<style>
+	@layer components {
+		/* Quiet gray small print, centred at the end of the column: separate
+		   items with middle dots, like the links under the name in the hero. */
+		footer {
+			margin-block-start: var(--space-2xl-3xl);
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: baseline;
+			gap: var(--space-xs) var(--space-s);
+			font-size: 0.9rem;
+		}
+		/* Links stay gray, without the rubric tint links get elsewhere, and
+		   darken to the ink colour on hover (lighten, in dark mode). */
+		a {
+			text-decoration-color: color-mix(in oklch, currentColor 45%, transparent);
+		}
+		a:hover {
+			color: var(--ink);
+		}
+		/* Flex items carry their own trim. */
+		footer > * {
+			text-box: trim-both cap alphabetic;
+		}
+		.divider {
+			font-weight: 600;
+			font-size: 1.15em;
+		}
+		/* Too narrow for one line: the copyright gets its own line rather than
+		   leaving a dot hanging at the end of the first. */
+		@media (max-width: 32rem) {
+			.copyright {
+				flex-basis: 100%;
+				text-align: center;
+			}
+			.first {
+				display: none;
+			}
+		}
+	}
+</style>

@@ -2,6 +2,7 @@
 // Cloudflare Pages serves dist/404.html, with a 404 status, for any path
 // that doesn't exist; without it, every unknown path got the home page.
 import Head from '../components/Head.astro';
+import Footer from '../components/Footer.astro';
 import { getEntry } from 'astro:content';
 
 const profile = (await getEntry('profile', 'main'))!.data;
@@ -20,16 +21,23 @@ const profile = (await getEntry('profile', 'main'))!.data;
 				<p class="lead muted">There’s nothing at this address.</p>
 				<p class="back"><a href="/">Go to the home page</a></p>
 			</header>
+			<Footer />
 		</main>
 	</body>
 </html>
 
 <style>
 	@layer components {
-		/* A smaller version of the home page's hero: centred in the first
-		   screen, with the same kicker and type. */
+		/* One screen tall: the message, a smaller version of the home page's
+		   hero, is centred in the space above the footer, which sits at the
+		   bottom. */
+		main {
+			min-block-size: 100svb;
+			display: flex;
+			flex-direction: column;
+		}
 		header {
-			min-block-size: calc(100svb - var(--space-xl-2xl) - var(--space-2xl-3xl));
+			flex: 1;
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
