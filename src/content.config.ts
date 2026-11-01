@@ -16,6 +16,8 @@ const profile = defineCollection({
 		name: z.string(),
 		title: z.string(),
 		location: z.string(),
+		// Business address, one line per entry, shown in the footer.
+		address: z.array(z.string()),
 		// Your name as it appears in citations, highlighted in the publications list.
 		citationName: z.string().optional(),
 		links: z.array(link),
