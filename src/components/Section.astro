@@ -40,6 +40,27 @@ const { title, printOnly = false } = Astro.props;
 		h2 > span {
 			text-box: trim-both cap alphabetic;
 		}
+		/* On paper: the printed CV's headings, small caps over a full-width
+		   rule, kept with their first entry. */
+		@media print {
+			section {
+				margin-block-start: var(--space-m-l);
+			}
+			h2 {
+				display: block;
+				margin-block-end: var(--space-2xs);
+				padding-block-end: var(--space-3xs);
+				border-block-end: 1px solid var(--ink);
+				font-size: 1.3rem;
+				font-weight: 600;
+				font-variant-caps: small-caps;
+				letter-spacing: 0.04em;
+				break-after: avoid;
+			}
+			h2::after {
+				display: none;
+			}
+		}
 		h2::after {
 			content: '';
 			flex: 1;

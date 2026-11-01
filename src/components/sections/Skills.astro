@@ -30,7 +30,20 @@ const groups = (await getCollection('skills')).sort((a, b) => a.data.order - b.d
 			font-variant-caps: all-small-caps;
 			letter-spacing: 0.07em;
 		}
-		@media (max-width: 32rem) {
+		@media print {
+			/* Kept on one page: a skill list split across pages reads as
+			   two lists. */
+			dl {
+				gap: var(--space-3xs) var(--space-m);
+				break-inside: avoid;
+			}
+			dt {
+				font-variant-caps: normal;
+				letter-spacing: 0;
+				font-weight: 600;
+			}
+		}
+		@media screen and (max-width: 32rem) {
 			dl {
 				grid-template-columns: 1fr;
 				gap: var(--space-2xs-xs);

@@ -117,13 +117,85 @@ const { heading, subheading, subheadingNote, dates, location } = Astro.props;
 			}
 		}
 
+		/* On paper: the printed CV's entries. Title and dates share the first
+		   line, organisation and location (italic) the second, then tight
+		   bullets with the technologies in bold. Entries are kept whole, so
+		   pages break only between entries or before a section title. */
+		@media print {
+			article {
+				grid-template-areas:
+					'title dates'
+					'sub location'
+					'body body';
+			}
+			article + article {
+				margin-block-start: var(--space-s-m);
+			}
+			h3 {
+				font-size: 1.25rem;
+			}
+			.sub,
+			.location {
+				font-style: italic;
+			}
+			.dates,
+			.location {
+				font-size: 1.2rem;
+				text-align: end;
+			}
+			/* Untrimmed on paper, so the lines' own leading spaces them. */
+			.sub {
+				margin-block-start: 0;
+			}
+			.dates {
+				margin-block-start: 0;
+				font-weight: 600;
+			}
+			/* Italic glyphs lean past their box; at the page's right edge the
+			   overhang was cut off, so leave it room. */
+			.location {
+				margin-block-start: 0;
+				padding-inline-end: 0.15em;
+			}
+			.body {
+				margin-block-start: var(--space-3xs);
+			}
+			/* Untrimmed on paper (see utilities.css), so the leading already
+			   separates lines; a little extra marks a new bullet. */
+			.body :global(li + li) {
+				margin-block-start: 0.3em;
+			}
+			.body :global(strong) {
+				font-weight: 600;
+				background-color: transparent;
+				padding: 0;
+				margin: 0;
+			}
+			article {
+				break-inside: avoid;
+			}
+			/* Should an entry ever outgrow a page, it still won't break
+			   inside a bullet or after its header. */
+			h3,
+			.sub,
+			.dates,
+			.location {
+				break-after: avoid;
+			}
+			.body :global(li) {
+				break-inside: avoid;
+			}
+		}
+
 		/* Wide layout: the grid reaches left into the page margin, so dates and
 		   location sit in a margin column beside the text, which stays centred.
 		   The dates share the title's row and the location shares the
 		   institution's, so baseline alignment puts each pair on one baseline.
 		   Needs room for the margin on both sides:
-		   measure + 2 × (margin + gutter + side). */
-		@media (min-width: 74rem) {
+		   measure + 2 × (margin + gutter + side). Screen only: Safari can
+		   match width queries against the window when printing, which hung
+		   the dates off the page. */
+		@media screen and (min-width: 74rem) {
 			article {
 				grid-template-columns: var(--margin) minmax(0, 1fr);
 				grid-template-areas:

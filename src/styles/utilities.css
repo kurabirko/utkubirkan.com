@@ -13,6 +13,21 @@
 	color: var(--muted);
 }
 
+/* On paper the dates are set like the printed CV's: plain, not small caps. */
+@media print {
+	.small-caps {
+		font-variant-caps: normal;
+		letter-spacing: 0;
+	}
+	/* No text-box trim on paper: a trimmed box is shorter than its glyphs,
+	   so when a block moves to the next page, its ascenders were left
+	   behind as a sliced ghost line at the foot of the previous one. In
+	   this layer to win over the components' own trims. */
+	* {
+		text-box: normal;
+	}
+}
+
 /* Kept for the printed CV; on screen the skills are named in the bullets. */
 @media not print {
 	.print-only {

@@ -4,6 +4,10 @@ import { getEntry } from 'astro:content';
 const profile = await getEntry('profile', 'main');
 if (!profile) throw new Error('Missing "main" entry in src/content/profile.yaml');
 const { name, title, location, links } = profile.data;
+
+// On paper a link has to show where it goes: "LinkedIn" prints as
+// linkedin.com/in/…. Labels that already are the address print as they are.
+const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:\/\/(www\.)?/, '');
 ---
 
 <header>
@@ -16,7 +20,16 @@ const { name, title, location, links } = profile.data;
 				links.map((link, i) => (
 					<>
 						{i > 0 && <span class="divider" aria-hidden="true">·</span>}
-						<a href={link.href}>{link.label}</a>
+						<a href={link.href}>
+							{address(link.href) === link.label ? (
+								link.label
+							) : (
+								<>
+									<span class="screen-label">{link.label}</span>
+									<span class="print-label">{address(link.href)}</span>
+								</>
+							)}
+						</a>
 					</>
 				))
 			}
@@ -95,12 +108,12 @@ const { name, title, location, links } = profile.data;
 			scale: 1.15;
 			transform-origin: center bottom;
 		}
-		@media (max-width: 48rem) {
+		@media screen and (max-width: 48rem) {
 			header {
 				--name-size: 5;
 			}
 		}
-		@media (max-width: 32rem) {
+		@media screen and (max-width: 32rem) {
 			header {
 				--kicker-size: 0.805;
 				--name-size: 3.25;
@@ -116,6 +129,54 @@ const { name, title, location, links } = profile.data;
 			}
 			nav > .divider:nth-child(2) {
 				display: none;
+			}
+		}
+
+		.print-label {
+			display: none;
+		}
+		/* On paper: the printed CV's header (name, contact line, location)
+		   instead of a screen-filling hero; the scroll animation is screen
+		   only. The title is left out, as the entries carry it. */
+		@media print {
+			header {
+				--name-size: 2.4;
+				--line-size: 1.2;
+				--nav-size: 1.2;
+				--nav-rows: 1;
+				min-block-size: 0;
+				padding-block: 0;
+			}
+			.hero {
+				display: flex;
+				flex-direction: column;
+			}
+			.kicker {
+				display: none;
+			}
+			h1 {
+				margin-block-start: 0;
+				font-weight: 600;
+			}
+			nav {
+				order: 1;
+				margin-block-start: var(--space-3xs);
+			}
+			.location {
+				order: 2;
+				margin-block-start: 0;
+			}
+			nav > :first-child {
+				flex-basis: auto;
+			}
+			nav > .divider:nth-child(2) {
+				display: revert;
+			}
+			.screen-label {
+				display: none;
+			}
+			.print-label {
+				display: inline;
 			}
 		}
 

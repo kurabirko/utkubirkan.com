@@ -31,3 +31,16 @@
 		--tint: oklch(100% 0 0 / 7%);
 	}
 }
+
+/* Paper: black on white, in either theme (printing from dark mode would
+   otherwise print light text), like a conventional printed CV. */
+@media print {
+	:root {
+		--paper: #fff;
+		--ink: #000;
+		--muted: #000;
+		--rubric: #000;
+		--tint: transparent;
+		color-scheme: light;
+	}
+}

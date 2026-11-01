@@ -69,3 +69,31 @@ main {
 	padding-inline: var(--side);
 	padding-block: var(--space-xl-2xl) var(--space-l-xl);
 }
+
+/*
+  Paper, of whatever size the reader prints on (no @page size: A4 and US
+  Letter both work, and the column simply fills the page). Print margins,
+  type sized for paper (every size is in rem, so the root sets them all),
+  no page background, and main's screen padding dropped since @page
+  provides the margins.
+*/
+@media print {
+	@page {
+		margin: 12mm 14mm;
+	}
+	/* Body text (1.2rem) at 11pt, the floor for readable print; nothing on
+	   paper is set smaller than body text. Never shrink this to save a
+	   page: entries break cleanly, so a third page is fine. */
+	html {
+		font-size: calc(11pt / 1.2);
+	}
+	/* Tighter leading, as in a printed CV. */
+	body {
+		background: none;
+		line-height: 1.3;
+	}
+	main {
+		max-inline-size: none;
+		padding: 0;
+	}
+}
