@@ -7,9 +7,10 @@
   },
   "scripts": {
     "dev": "bunx --bun astro dev",
-    "build": "bunx --bun astro build",
+    "build": "bunx --bun astro build && bun scripts/build-pdf.ts",
     "preview": "bunx --bun astro preview",
-    "astro": "bunx --bun astro"
+    "astro": "bunx --bun astro",
+    "build:pdf": "bun scripts/build-pdf.ts"
   },
   "dependencies": {
     "astro": "^7.4.4"
