@@ -1,0 +1,10 @@
+main:
+  name: Utku Birkan
+  title: Software Engineer
+  location: Ankara, Turkey
+  citationName: Birkan, U.
+  links:
+    - label: utku.birkan@gmail.com
+      href: mailto:utku.birkan@gmail.com
+    - label: LinkedIn
+      href: https://www.linkedin.com/in/utku-birkan

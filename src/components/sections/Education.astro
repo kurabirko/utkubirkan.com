@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from 'astro:content';
+import Section from '../Section.astro';
+import TimelineItem from '../TimelineItem.astro';
+import { formatRange } from '../../lib/date';
+
+const degrees = (await getCollection('education')).sort((a, b) =>
+	b.data.end.localeCompare(a.data.end),
+);
+---
+
+<Section title="Education">
+	{
+		degrees.map(async (degree) => {
+			const { Content } = await render(degree);
+			const { school, honors, gpa, project } = degree.data;
+			const distinction = [honors && `with ${honors}`, gpa && `${gpa} GPA`]
+				.filter(Boolean)
+				.join(', ');
+			return (
+				<TimelineItem
+					heading={degree.data.degree}
+					headingNote={distinction || undefined}
+					subheading={school}
+					location={degree.data.location}
+					dates={formatRange(degree.data.start, degree.data.end)}
+				>
+					{project && (
+						<p class="detail">
+							Graduation project: <a href={project.href}>{project.label}</a>
+						</p>
+					)}
+					<Content />
+				</TimelineItem>
+			);
+		})
+	}
+</Section>
+
+<style>
+	.detail {
+		margin: 0 0 0.5rem;
+	}
+</style>

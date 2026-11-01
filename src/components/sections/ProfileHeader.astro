@@ -1,0 +1,35 @@
+---
+import { getEntry } from 'astro:content';
+
+const profile = await getEntry('profile', 'main');
+if (!profile) throw new Error('Missing "main" entry in src/content/profile.yaml');
+const { name, title, location, summary, links } = profile.data;
+---
+
+<header>
+	<h1>{name}</h1>
+	<p class="meta">{title} · {location}</p>
+	{summary && <p class="summary">{summary}</p>}
+	<nav>
+		{links.map((link) => <a href={link.href}>{link.label}</a>)}
+	</nav>
+</header>
+
+<style>
+	header {
+		margin-bottom: 3rem;
+	}
+	h1 {
+		font-size: 2.5rem;
+		letter-spacing: -0.02em;
+	}
+	.meta {
+		color: var(--muted);
+		margin: 0.25rem 0 1rem;
+	}
+	nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+</style>

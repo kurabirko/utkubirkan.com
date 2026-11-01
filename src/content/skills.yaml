@@ -1,0 +1,34 @@
+- id: languages
+  name: Languages
+  order: 1
+  items: [C#, JavaScript, TypeScript, Python, C++]
+- id: frameworks-cloud
+  name: Frameworks & Cloud
+  order: 2
+  items:
+    - ASP.NET Core
+    - Entity Framework Core
+    - gRPC
+    - RabbitMQ (MQTT, AMQP)
+    - Docker
+    - Kubernetes
+    - Helm
+    - AWS (EKS, EC2)
+    - PostgreSQL
+    - Microsoft SQL Server
+    - Angular
+- id: tools-platforms
+  name: Tools & Platforms
+  order: 3
+  items:
+    - OpenTelemetry
+    - OpenSearch / ELK
+    - Keycloak
+    - Git
+    - GitHub Copilot
+    - Claude Code
+    - Firebase
+    - JFrog Artifactory
+    - GitLab CI/CD
+    - CycloneDX
+    - Trivy

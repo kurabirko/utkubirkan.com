@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import Section from '../Section.astro';
+
+const groups = (await getCollection('skills')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Section title="Technical Skills">
+	<dl>
+		{
+			groups.map(({ data }) => (
+				<>
+					<dt>{data.name}</dt>
+					<dd>{data.items.join(', ')}</dd>
+				</>
+			))
+		}
+	</dl>
+</Section>
+
+<style>
+	dl {
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		gap: 0.5rem 1.5rem;
+		margin: 0;
+	}
+	dt {
+		font-weight: 600;
+	}
+	dd {
+		margin: 0;
+	}
+	@media (max-width: 32rem) {
+		dl {
+			grid-template-columns: 1fr;
+			gap: 0.25rem;
+		}
+		dd + dt {
+			margin-top: 0.75rem;
+		}
+	}
+</style>

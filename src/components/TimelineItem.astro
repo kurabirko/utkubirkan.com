@@ -1,0 +1,93 @@
+---
+interface Props {
+	heading: string;
+	headingNote?: string; // shown beside the heading in lighter text, e.g. honors
+	subheading: string;
+	dates: string;
+	location?: string;
+}
+
+const { heading, headingNote, subheading, dates, location } = Astro.props;
+---
+
+<article>
+	<div class="head">
+		<h3>
+			{heading}
+			{headingNote && <span class="note">{headingNote}</span>}
+		</h3>
+		<span class="dates">{dates}</span>
+		<span class="sub">{subheading}</span>
+		{location && <span class="location">{location}</span>}
+	</div>
+	<div class="body">
+		<slot />
+	</div>
+</article>
+
+<style>
+	article + article {
+		margin-top: 2rem;
+	}
+	.head {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		grid-template-areas:
+			'title dates'
+			'sub location';
+		gap: 0 1rem;
+	}
+	h3 {
+		grid-area: title;
+		font-size: 1.05rem;
+	}
+	.note {
+		margin-left: 0.4em;
+		font-weight: 400;
+		font-style: italic;
+		color: var(--muted);
+	}
+	.dates {
+		grid-area: dates;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+	.sub {
+		grid-area: sub;
+	}
+	.location {
+		grid-area: location;
+		text-align: right;
+	}
+	.dates,
+	.sub,
+	.location {
+		color: var(--muted);
+	}
+	.body {
+		margin-top: 0.5rem;
+	}
+	.body :global(li + li) {
+		margin-top: 0.25rem;
+	}
+
+	/* On narrow screens the title gets its own full-width line so long titles
+	   don't push the dates around; dates and location share the line below. */
+	@media (max-width: 32rem) {
+		.head {
+			grid-template-areas:
+				'title title'
+				'sub sub'
+				'dates location';
+		}
+		.dates,
+		.location {
+			font-size: 0.9rem;
+		}
+		.note {
+			display: block;
+			margin-left: 0;
+			font-size: 0.95rem;
+		}
+	}
+</style>

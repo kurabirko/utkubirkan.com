@@ -1,0 +1,42 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Section from '../Section.astro';
+
+const publications = (await getCollection('publications')).sort((a, b) => b.data.year - a.data.year);
+const self = (await getEntry('profile', 'main'))?.data.citationName;
+---
+
+<Section title="Publications">
+	<ul class="publications">
+		{
+			publications.map(({ data }) => (
+				<li>
+					{data.authors.map((author, i) => (
+						<>
+							{author === self ? <strong>{author}</strong> : author}
+							{i < data.authors.length - 1 && ', '}
+						</>
+					))}{' '}
+					({data.year}). <em>{data.title}</em>. {data.venue}
+					{data.pages && ` (pp. ${data.pages})`}.{data.publisher && ` ${data.publisher}.`}
+					{data.doi && (
+						<>
+							{' '}
+							<a href={`https://doi.org/${data.doi}`}>doi:{data.doi}</a>
+						</>
+					)}
+				</li>
+			))
+		}
+	</ul>
+</Section>
+
+<style>
+	.publications {
+		list-style: none;
+		padding: 0;
+	}
+	.publications li + li {
+		margin-top: 1rem;
+	}
+</style>

@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import Section from '../Section.astro';
+import TimelineItem from '../TimelineItem.astro';
+import { formatRange } from '../../lib/date';
+
+const jobs = (await getCollection('experience')).sort((a, b) =>
+	b.data.start.localeCompare(a.data.start),
+);
+---
+
+<Section title="Experience">
+	{
+		jobs.map(async (job) => {
+			const { Content } = await render(job);
+			return (
+				<TimelineItem
+					heading={job.data.role}
+					subheading={job.data.company}
+					location={job.data.location}
+					dates={formatRange(job.data.start, job.data.end)}
+				>
+					<Content />
+				</TimelineItem>
+			);
+		})
+	}
+</Section>

@@ -1,0 +1,19 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProfileHeader from '../components/sections/ProfileHeader.astro';
+import Experience from '../components/sections/Experience.astro';
+import Education from '../components/sections/Education.astro';
+import Publications from '../components/sections/Publications.astro';
+import Skills from '../components/sections/Skills.astro';
+
+const profile = (await getEntry('profile', 'main'))!.data;
+---
+
+<BaseLayout title={profile.name} description={`${profile.name} — ${profile.title}`}>
+	<ProfileHeader />
+	<Experience />
+	<Education />
+	<Publications />
+	<Skills />
+</BaseLayout>

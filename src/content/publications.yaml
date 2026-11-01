@@ -1,0 +1,13 @@
+- id: qfa-noisy-devices
+  authors:
+    - Birkan, U.
+    - Salehi, Ö.
+    - Olejar, V.
+    - Nurlu, C.
+    - Yakaryılmaz, A.
+  year: 2021
+  title: Implementing Quantum Finite Automata Algorithms on Noisy Devices
+  venue: Lecture Notes in Computer Science
+  pages: 3–16
+  publisher: Springer International Publishing
+  doi: 10.1007/978-3-030-77980-1_1
