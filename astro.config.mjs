@@ -18,8 +18,7 @@ export default defineConfig({
 			name: 'EB Garamond',
 			cssVariable: '--font-eb-garamond',
 			weights: [400, 500, 600],
-			// No italic: nothing on the page is set in it.
-			styles: ['normal'],
+			styles: ['normal', 'italic'],
 			// latin-ext covers Turkish letters (ı, İ, ğ, ş) in names and institutions
 			subsets: ['latin', 'latin-ext'],
 			fallbacks: ['Iowan Old Style', 'Garamond', 'Georgia', 'serif'],
