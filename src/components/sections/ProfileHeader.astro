@@ -3,23 +3,27 @@ import { getEntry } from 'astro:content';
 
 const profile = await getEntry('profile', 'main');
 if (!profile) throw new Error('Missing "main" entry in src/content/profile.yaml');
-const { name, title, location, links } = profile.data;
+const { name, title, links, address: businessAddress } = profile.data;
 
 // On paper a link has to show where it goes: "LinkedIn" prints as
 // linkedin.com/in/…. Labels that already are the address print as they are.
 const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:\/\/(www\.)?/, '');
+
+// The CV as a PDF, printed from this page at build time (scripts/build-pdf.ts).
+const pdf = '/utku-birkan-cv.pdf';
 ---
 
 <header>
 	<div class="hero">
 		<p class="kicker rubric">{title}</p>
 		<h1>{name}</h1>
-		<p class="location muted">{location}</p>
 		<nav>
+			<a class="screen-only" href={pdf} download={`${name} CV.pdf`}>CV</a>
 			{
 				links.map((link, i) => (
 					<>
-						{i > 0 && <span class="divider" aria-hidden="true">·</span>}
+						{/* On phones the dot before the second link breaks the line. */}
+						<span class:list={['divider', { 'screen-only': i === 0, 'row-break': i === 1 }]} aria-hidden="true">·</span>
 						<a href={link.href}>
 							{address(link.href) === link.label ? (
 								link.label
@@ -34,6 +38,8 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 				))
 			}
 		</nav>
+		{/* Paper only: the footer carries the address on screen. */}
+		<address class="print-only">{businessAddress.join(', ')}</address>
 	</div>
 </header>
 
@@ -46,10 +52,12 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 		header {
 			--kicker-size: 0.98;
 			--name-size: 7;
-			--line-size: 1.6;
 			--nav-size: 1.3;
-			/* Lines the links take: 2 on phones, where the email has its own. */
+			/* The gap from the name to the links, the lines the links take (2
+			   on phones) and the gap between those lines. */
+			--name-gap: var(--space-xl);
 			--nav-rows: 1;
+			--nav-row-gap: var(--space-xs);
 			/* The viewport less main's top padding, the section spacing, the
 			   label (1.2rem trimmed to EB Garamond's 0.65em cap height) and a
 			   gap under it, smaller than the label's own space-l gap to the
@@ -82,16 +90,12 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 			line-height: 0.92;
 			letter-spacing: -0.01em;
 		}
-		.location {
-			margin-block-start: var(--space-m-l);
-			font-size: calc(var(--line-size) * 1rem);
-		}
 		nav {
 			display: flex;
 			flex-wrap: wrap;
 			align-items: baseline;
 			gap: var(--space-xs) var(--space-s);
-			margin-block-start: var(--space-l);
+			margin-block-start: var(--name-gap);
 			font-size: calc(var(--nav-size) * 1rem);
 		}
 		nav > * {
@@ -117,31 +121,35 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 			header {
 				--kicker-size: 0.805;
 				--name-size: 3.25;
-				--line-size: 1.3;
 				--nav-size: 1.2;
 				--nav-rows: 2;
 			}
-			/* Too narrow for every link on one line: the email takes its own,
-			   rather than leaving a dot hanging at the end of the first, and
-			   the rest follow below. */
-			nav > :first-child {
-				flex-basis: 100%;
+			/* Too narrow for every link on one line: CV and the email share
+			   the first, the rest follow on the second, rather than leaving a
+			   dot hanging at a line end. The dot between them becomes an
+			   invisible full-width row break as tall as the row gap, with the
+			   nav's own row gap dropped, so the rows sit one gap apart. */
+			nav {
+				row-gap: 0;
 			}
-			nav > .divider:nth-child(2) {
-				display: none;
+			.row-break {
+				flex-basis: 100%;
+				block-size: var(--nav-row-gap);
+				overflow: hidden;
+				visibility: hidden;
+				scale: none;
 			}
 		}
 
 		.print-label {
 			display: none;
 		}
-		/* On paper: the printed CV's header (name, contact line, location)
-		   instead of a screen-filling hero; the scroll animation is screen
+		/* On paper: the printed CV's header (name, contact line, business
+		   address) instead of a screen-filling hero; the scroll animation is screen
 		   only. The title is left out, as the entries carry it. */
 		@media print {
 			header {
 				--name-size: 2.4;
-				--line-size: 1.2;
 				--nav-size: 1.2;
 				--nav-rows: 1;
 				min-block-size: 0;
@@ -159,20 +167,23 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 				font-weight: 600;
 			}
 			nav {
-				order: 1;
 				margin-block-start: var(--space-3xs);
+				row-gap: var(--space-xs);
 			}
-			.location {
-				order: 2;
-				margin-block-start: 0;
+			address {
+				font-size: calc(var(--nav-size) * 1rem);
+				font-style: normal;
 			}
-			nav > :first-child {
+			.row-break {
 				flex-basis: auto;
+				block-size: auto;
+				overflow: visible;
+				visibility: visible;
+				scale: 1.15;
 			}
-			nav > .divider:nth-child(2) {
-				display: revert;
-			}
-			.screen-label {
+			/* The PDF link: pointless on the printed CV itself. */
+			.screen-label,
+			.screen-only {
 				display: none;
 			}
 			.print-label {
@@ -200,24 +211,21 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 					--inset-end: var(--space-l);
 					--kicker-compact: 0.77;
 					--name-compact: 3.5;
-					--line-compact: 1.2;
 					--nav-compact: 1.1;
 					/* Heights of the full and compact hero: every line is trimmed to
 					   its cap height (the nav's one or two rows apart by its row
 					   gap), plus the gaps between lines. */
 					--hero-full-h: calc(
 						var(--cap) *
-							(var(--kicker-size) + var(--name-size) + var(--line-size) +
-								var(--nav-size) * var(--nav-rows)) +
-							var(--space-m) + var(--space-m-l) + var(--space-l) +
-							(var(--nav-rows) - 1) * var(--space-xs)
+							(var(--kicker-size) + var(--name-size) + var(--nav-size) * var(--nav-rows)) +
+							var(--space-m) + var(--name-gap) +
+							(var(--nav-rows) - 1) * var(--nav-row-gap)
 					);
 					--hero-compact-h: calc(
 						var(--cap) *
-							(var(--kicker-compact) + var(--name-compact) + var(--line-compact) +
-								var(--nav-compact) * var(--nav-rows)) +
-							2 * var(--space-xs) + var(--space-s) +
-							(var(--nav-rows) - 1) * var(--space-xs)
+							(var(--kicker-compact) + var(--name-compact) + var(--nav-compact) * var(--nav-rows)) +
+							var(--space-xs) + var(--space-s) +
+							(var(--nav-rows) - 1) * var(--nav-row-gap)
 					);
 					/* Via a custom property so the minifier keeps animation-timeline
 					   as its own declaration instead of folding it into the
@@ -244,7 +252,6 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 				.hero,
 				.kicker,
 				h1,
-				.location,
 				nav {
 					/* Longhands: a nameless shorthand gets minified to animation: none. */
 					animation-timing-function: linear;
@@ -257,7 +264,6 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 				   --gap-end): Safari leaves a spacing property at its start
 				   value here when a normal rule on the element also sets it. */
 				h1,
-				.location,
 				nav {
 					margin-block-start: 0;
 				}
@@ -266,11 +272,7 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 					--gap-end: var(--space-xs);
 				}
 				h1 {
-					--gap: var(--space-m-l);
-					--gap-end: var(--space-xs);
-				}
-				.location {
-					--gap: var(--space-l);
+					--gap: var(--name-gap);
 					--gap-end: var(--space-s);
 				}
 				.kicker {
@@ -278,9 +280,6 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 				}
 				h1 {
 					animation-name: hero-name;
-				}
-				.location {
-					animation-name: hero-line;
 				}
 				nav {
 					animation-name: hero-nav;
@@ -306,15 +305,6 @@ const address = (href: string) => href.replace(/^mailto:/, '').replace(/^https?:
 					to {
 						padding-block-end: var(--gap-end);
 						font-size: calc(var(--name-compact) * 1rem);
-					}
-				}
-				@keyframes hero-line {
-					from {
-						padding-block-end: var(--gap);
-					}
-					to {
-						padding-block-end: var(--gap-end);
-						font-size: calc(var(--line-compact) * 1rem);
 					}
 				}
 				@keyframes hero-nav {
