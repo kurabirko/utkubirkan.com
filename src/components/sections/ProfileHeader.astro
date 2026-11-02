@@ -51,7 +51,7 @@ const pdf = '/utku-birkan-cv.pdf';
 		   and step down at breakpoints. */
 		header {
 			--kicker-size: 0.98;
-			--name-size: 6.75;
+			--name-size: 6.5;
 			--nav-size: 1.3;
 			/* The gap from the name to the links, the lines the links take (2
 			   on phones) and the gap between those lines. */
@@ -91,7 +91,7 @@ const pdf = '/utku-birkan-cv.pdf';
 		h1 {
 			margin-block-start: var(--kicker-gap);
 			font-family: var(--font-display);
-			font-weight: 800;
+			font-weight: 900;
 			font-size: calc(var(--name-size) * 1rem);
 			line-height: 0.92;
 			letter-spacing: 0;
@@ -123,14 +123,14 @@ const pdf = '/utku-birkan-cv.pdf';
 		}
 		@media screen and (max-width: 48rem) {
 			header {
-				--name-size: 5;
+				--name-size: 4.75;
 			}
 		}
 		@media screen and (max-width: 32rem) {
 			header {
 				--kicker-size: 0.805;
-				/* Jost 800 is 5.7em wide: 3rem leaves a margin on a 320px phone. */
-				--name-size: 3;
+				/* Jost 900 is 5.9em wide: 2.875rem leaves a margin on a 320px phone. */
+				--name-size: 2.875;
 				--nav-size: 1.2;
 				--nav-rows: 2;
 			}
@@ -226,7 +226,7 @@ const pdf = '/utku-birkan-cv.pdf';
 					/* Where the hero ends up, and its compact font sizes in rem. */
 					--inset-end: var(--space-l);
 					--kicker-compact: 0.77;
-					--name-compact: 3.5;
+					--name-compact: 2.5;
 					--nav-compact: 1.1;
 					/* The compact gaps: kicker to name, name to links. */
 					--kicker-gap-end: var(--space-s);
@@ -319,7 +319,7 @@ const pdf = '/utku-birkan-cv.pdf';
 						font-size: calc(var(--kicker-compact) * 1rem);
 					}
 				}
-				/* The name also thins from Jost's 800 to 600 as it shrinks: a
+				/* The name also thins from Jost's 900 to 750 as it shrinks: a
 				   compact extra-bold would look heavy. Weight changes width, not the
 				   cap height, so the formulas are unaffected. */
 				@keyframes hero-name {
@@ -329,17 +329,12 @@ const pdf = '/utku-birkan-cv.pdf';
 					to {
 						padding-block-end: var(--gap-end);
 						font-size: calc(var(--name-compact) * 1rem);
-						font-weight: 600;
+						font-weight: 750;
 					}
 				}
 				@keyframes hero-nav {
 					to {
 						font-size: calc(var(--nav-compact) * 1rem);
-					}
-				}
-				@media (max-width: 48rem) {
-					header {
-						--name-compact: 3;
 					}
 				}
 				@media (max-width: 32rem) {

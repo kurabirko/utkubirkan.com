@@ -28,8 +28,8 @@ export default defineConfig({
 			name: 'Jost',
 			cssVariable: '--font-jost',
 			// A variable range rather than fixed weights, so the name can thin
-			// from 800 to 600 as it shrinks; light for the footer.
-			weights: ['300 800'],
+			// from 900 to 750 as it shrinks; light for the footer.
+			weights: ['300 900'],
 			styles: ['normal'],
 			subsets: ['latin', 'latin-ext'],
 			fallbacks: ['Futura', 'Avenir Next', 'Century Gothic', 'sans-serif'],
