@@ -23,5 +23,16 @@ export default defineConfig({
 			subsets: ['latin', 'latin-ext'],
 			fallbacks: ['Iowan Old Style', 'Garamond', 'Georgia', 'serif'],
 		},
+		{
+			provider: fontProviders.google(),
+			name: 'Jost',
+			cssVariable: '--font-jost',
+			// A variable range rather than fixed weights, so the name can thin
+			// from 800 to 600 as it shrinks; light for the footer.
+			weights: ['300 800'],
+			styles: ['normal'],
+			subsets: ['latin', 'latin-ext'],
+			fallbacks: ['Futura', 'Avenir Next', 'Century Gothic', 'sans-serif'],
+		},
 	],
 });

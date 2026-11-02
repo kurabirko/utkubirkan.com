@@ -12,6 +12,7 @@
 	--tint: oklch(0% 0 0 / 5%); /* neutral gray keyword highlight */
 
 	--font-body: var(--font-eb-garamond);
+	--font-display: var(--font-jost); /* the name, the 404 heading, the footer */
 
 	/* Book layout: a centred text column, with notes hanging in the margin. */
 	--measure: 40rem;

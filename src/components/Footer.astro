@@ -36,6 +36,8 @@ const years = year > 2025 ? `2025–${year}` : '2025';
 			justify-content: space-between;
 			align-items: start;
 			gap: var(--space-m) var(--space-l);
+			font-family: var(--font-display);
+			font-weight: 300;
 			font-size: 0.9rem;
 			line-height: 1.5;
 		}
@@ -44,9 +46,9 @@ const years = year > 2025 ? `2025–${year}` : '2025';
 			list-style: none;
 		}
 		/* The same gap as between the address's lines (1.5 line height minus
-		   the 0.65em cap height), as both are trimmed to their letters. */
+		   Jost's 0.7em cap height), as both are trimmed to their letters. */
 		.links li + li {
-			margin-block-start: 0.85em;
+			margin-block-start: 0.8em;
 		}
 		address {
 			font-style: normal;

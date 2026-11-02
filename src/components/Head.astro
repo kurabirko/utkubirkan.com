@@ -22,7 +22,9 @@ import { Font } from 'astro:assets';
 	<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 	<meta name="generator" content={Astro.generator} />
 	<slot />
-	<!-- Preload only the Latin file, which sets the name (the largest
-	     contentful paint); latin-ext is fetched when its letters appear. -->
+	<!-- Preload only the Latin files: Jost sets the name (the largest
+	     contentful paint) and EB Garamond the text around it; latin-ext and
+	     italic are fetched when their letters appear. -->
 	<Font cssVariable="--font-eb-garamond" preload={[{ subset: 'latin', style: 'normal' }]} />
+	<Font cssVariable="--font-jost" preload={[{ subset: 'latin' }]} />
 </head>

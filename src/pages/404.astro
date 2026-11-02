@@ -49,11 +49,15 @@ const profile = (await getEntry('profile', 'main'))!.data;
 			font-size: 0.98rem;
 			letter-spacing: 0.143em;
 		}
+		/* Jost Bold, like the name on the home page. */
 		h1 {
 			margin-block-start: var(--space-m);
+			font-family: var(--font-display);
+			font-weight: 800;
 			font-size: 4.5rem;
 			line-height: 0.92;
-			letter-spacing: -0.01em;
+			letter-spacing: 0;
+			margin-inline-start: -0.06em; /* Jost's side bearing */
 		}
 		.lead {
 			margin-block-start: var(--space-m-l);
